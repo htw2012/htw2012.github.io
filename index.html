@@ -298,6 +298,161 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/fibinet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/19/fibinet/" itemprop="url">
+                  FiBiNET
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T00:10:57+08:00">
+                2019-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/19/fibinet/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/19/fibinet/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><ul>
+<li>推荐和广告的核心技术是CTR预估技术；</li>
+<li>CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法, FFM的参数量️巨大，值得去改进;</li>
+<li><p>Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；</p>
+</li>
+<li><p>SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；</p>
+</li>
+</ul>
+<h3 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
+<li>如何在CTR领域，利用更少的参数使用，达到FFM的效果？</li>
+<li>如何使用SENET技术，进一步提高效果 ？</li>
+<li>DeepCTR结构下，如何获得进一步的提升 ？</li>
+</ul>
+<h3 id="FiBiNET-Model"><a href="#FiBiNET-Model" class="headerlink" title="FiBiNET-Model"></a>FiBiNET-Model</h3><h4 id="FiBiNET-Architecture"><a href="#FiBiNET-Architecture" class="headerlink" title="FiBiNET Architecture"></a>FiBiNET Architecture</h4><p><img src="images/image-20190523141754590.png" alt="image-20190523141754590"></p>
+<h4 id="Core-components-SENET"><a href="#Core-components-SENET" class="headerlink" title="Core components: SENET"></a>Core components: SENET</h4><p><img src="images/image-20190523141846195.png" alt="image-20190523141846195"></p>
+<h4 id="Core-components-Bilinear-Interaction-Layer"><a href="#Core-components-Bilinear-Interaction-Layer" class="headerlink" title="Core components:  Bilinear-Interaction Layer"></a>Core components:  Bilinear-Interaction Layer</h4><p><img src="images/image-20190523141956530.png" alt="image-20190523141956530"></p>
+<p><img src="images/image-20190523142025589.png" alt="image-20190523142025589"></p>
+<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><h4 id="1-Over-Performance"><a href="#1-Over-Performance" class="headerlink" title="1.Over Performance"></a>1.Over Performance</h4><ul>
+<li><p>shallow model</p>
+<p><img src="images/image-20190523142222815.png" alt="image-20190523142222815"></p>
+</li>
+<li><p>Deep model</p>
+<p> <img src="images/image-20190523142321753.png" alt="image-20190523142321753"></p>
+</li>
+</ul>
+<h4 id="2-Bilinear-Interaction-Different-Field-Types"><a href="#2-Bilinear-Interaction-Different-Field-Types" class="headerlink" title="2.Bilinear-Interaction(Different Field Types)"></a>2.Bilinear-Interaction(Different Field Types)</h4><p><img src="images/image-20190523142405249.png" alt="image-20190523142405249"></p>
+<h4 id="3-Bilinear-Interaction-Different-Combinations"><a href="#3-Bilinear-Interaction-Different-Combinations" class="headerlink" title="3.Bilinear-Interaction(Different Combinations)"></a>3.Bilinear-Interaction(Different Combinations)</h4><p><img src="images/image-20190523142520725.png" alt="image-20190523142520725"></p>
+<h4 id="4-Ablation-Study"><a href="#4-Ablation-Study" class="headerlink" title="4.Ablation Study"></a>4.Ablation Study</h4><p><img src="images/image-20190523142646196.png" alt="image-20190523142646196"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/18/fat-deepffm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1278,7 +1433,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
