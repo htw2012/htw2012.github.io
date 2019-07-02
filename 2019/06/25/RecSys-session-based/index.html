@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="book," />
+  <meta name="keywords" content="Recommendation,行为序列," />
 
 
 
@@ -105,28 +105,31 @@
 
 
 
-<meta name="description" content="贫女【作者】秦韬玉 【朝代】唐代
-蓬门未识绮罗香，拟托良媒益自伤。
-谁爱风流高格调，共怜时世俭梳妆。
-敢将十指夸偏巧，不把双眉斗画长。
-苦恨年年压金线，为他人作嫁衣裳。">
+<meta name="description" content="行为序列建模目前主要的模型：
+
+DIN的做法
+直觉：用户的兴趣的多样性；局部激活，影响当前点击的是部分历史序列
+Attention:在候选的adv和历时的商品序列上, attention计算的时候将[querys(候选广告),  keys(历史行为序列)， querys-keys, queryskeys]的*四元组上进行DNN操作。序列mask值得借鉴
+Mini-batch Aware Regul">
 <meta property="og:type" content="article">
-<meta property="og:title" content="读诗">
-<meta property="og:url" content="http://yoursite.com/2017/03/08/read_couplet/index.html">
+<meta property="og:title" content="推荐系统系列-行为序列建模">
+<meta property="og:url" content="http://yoursite.com/2019/06/25/RecSys-session-based/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="贫女【作者】秦韬玉 【朝代】唐代
-蓬门未识绮罗香，拟托良媒益自伤。
-谁爱风流高格调，共怜时世俭梳妆。
-敢将十指夸偏巧，不把双眉斗画长。
-苦恨年年压金线，为他人作嫁衣裳。">
-<meta property="og:updated_time" content="2019-06-18T14:01:50.685Z">
+<meta property="og:description" content="行为序列建模目前主要的模型：
+
+DIN的做法
+直觉：用户的兴趣的多样性；局部激活，影响当前点击的是部分历史序列
+Attention:在候选的adv和历时的商品序列上, attention计算的时候将[querys(候选广告),  keys(历史行为序列)， querys-keys, queryskeys]的*四元组上进行DNN操作。序列mask值得借鉴
+Mini-batch Aware Regul">
+<meta property="og:updated_time" content="2019-07-02T15:48:09.148Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="读诗">
-<meta name="twitter:description" content="贫女【作者】秦韬玉 【朝代】唐代
-蓬门未识绮罗香，拟托良媒益自伤。
-谁爱风流高格调，共怜时世俭梳妆。
-敢将十指夸偏巧，不把双眉斗画长。
-苦恨年年压金线，为他人作嫁衣裳。">
+<meta name="twitter:title" content="推荐系统系列-行为序列建模">
+<meta name="twitter:description" content="行为序列建模目前主要的模型：
+
+DIN的做法
+直觉：用户的兴趣的多样性；局部激活，影响当前点击的是部分历史序列
+Attention:在候选的adv和历时的商品序列上, attention计算的时候将[querys(候选广告),  keys(历史行为序列)， querys-keys, queryskeys]的*四元组上进行DNN操作。序列mask值得借鉴
+Mini-batch Aware Regul">
 
 
 
@@ -154,13 +157,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/08/read_couplet/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/06/25/RecSys-session-based/"/>
 
 
 
 
 
-  <title> 读诗 | 数据娃嚼AI </title>
+  <title> 推荐系统系列-行为序列建模 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -309,7 +312,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/read_couplet/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/RecSys-session-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -330,7 +333,7 @@
             
             
               
-                读诗
+                推荐系统系列-行为序列建模
               
             
           </h1>
@@ -345,8 +348,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T21:45:23+08:00">
-                2017-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-25T23:44:20+08:00">
+                2019-06-25
               </time>
             
 
@@ -368,8 +371,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">life</span>
+                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
+                    <span itemprop="name">推荐系统</span>
                   </a>
                 </span>
 
@@ -386,8 +389,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/08/read_couplet/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/read_couplet/" itemprop="commentCount"></span>
+                <a href="/2019/06/25/RecSys-session-based/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/25/RecSys-session-based/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -413,11 +416,45 @@
       
 
       
-        <h4 id="贫女"><a href="#贫女" class="headerlink" title="贫女"></a>贫女</h4><p>【作者】秦韬玉 【朝代】唐代</p>
-<p>蓬门未识绮罗香，拟托良媒益自伤。</p>
-<p>谁爱风流高格调，共怜时世俭梳妆。</p>
-<p>敢将十指夸偏巧，不把双眉斗画长。</p>
-<p>苦恨年年压金线，为他人作嫁衣裳。</p>
+        <h3 id="行为序列建模"><a href="#行为序列建模" class="headerlink" title="行为序列建模"></a>行为序列建模</h3><p>目前主要的模型：</p>
+<ul>
+<li>DIN的做法<ul>
+<li>直觉：用户的兴趣的多样性；局部激活，影响当前点击的是部分历史序列</li>
+<li>Attention:在候选的adv和历时的商品序列上, attention计算的时候将[querys(候选广告),  keys(历史行为序列)， querys-keys, querys<em>keys]的<em>*四元组</em></em>上进行DNN操作。序列mask值得借鉴</li>
+<li>Mini-batch Aware Regularization</li>
+<li>如何处理多值字段？</li>
+<li>行为序列建模直接进行的mean pooling,留给了DIEN</li>
+</ul>
+</li>
+<li>DIEN的做法<ul>
+<li>直觉：捕获用户的潜在兴趣 latent interest 和用户兴趣的改变与多样</li>
+<li>借鉴点：设计兴趣的抽取层(使用下一个item来监督上一个学习的aux,使用的是正负样本)+设计兴趣的进化层(捕获兴趣的改变或者多样性)两层用来捕捉用户的兴趣</li>
+<li>DIEN使用amazon的数据如何转化为CTR任务的？</li>
+<li>可视化进化过程？</li>
+<li>DIEN的辅助loss和net的过程？</li>
+<li>AUGRU的实现</li>
+</ul>
+</li>
+<li>DISN的做法<ul>
+<li>直觉：用户的不同session的关注点不一样，兴趣点转移</li>
+<li>做法：<ul>
+<li>session切分层</li>
+<li>兴趣抽取层：transformer?<strong>位置的处理？</strong>Bias Encoding多了一个部分</li>
+<li>兴趣组合层: blstm?</li>
+<li>兴趣激活层：attention?bilinear的实现式子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>BST</p>
+<ul>
+<li>直觉：用户的行为序列的依赖关系可以通过transformer进行捕捉</li>
+<li>借鉴点：位置的编码，模型参数为什么这么小？</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/CRIPAC-DIG/SR-GNN" target="_blank" rel="external"><strong>SR-GNN</strong></a> AAAI 2019 Paper: [Session-based Recommendation with Graph Neural Networks](</p>
+</li>
+</ul>
 
       
     </div>
@@ -441,7 +478,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/book/" rel="tag"># book</a>
+            <a href="/tags/Recommendation/" rel="tag"># Recommendation</a>
+          
+            <a href="/tags/行为序列/" rel="tag"># 行为序列</a>
           
         </div>
       
@@ -454,14 +493,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/06/19/fibinet/" rel="next" title="FiBiNET">
+                <i class="fa fa-chevron-left"></i> FiBiNET
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/09/couplet/" rel="prev" title="对联一句">
-                对联一句 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/28/RecSys-Advance-RL/" rel="prev" title="推荐系统前沿系列-强化学习方法">
+                推荐系统前沿系列-强化学习方法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -477,10 +520,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/08/read_couplet/"
-     data-title="读诗"
+        <div class="ds-share flat" data-thread-key="2019/06/25/RecSys-session-based/"
+     data-title="推荐系统系列-行为序列建模"
      data-content=""
-     data-url="http://yoursite.com/2017/03/08/read_couplet/">
+     data-url="http://yoursite.com/2019/06/25/RecSys-session-based/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -507,8 +550,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/08/read_couplet/"
-           data-title="读诗" data-url="http://yoursite.com/2017/03/08/read_couplet/">
+      <div class="ds-thread" data-thread-key="2019/06/25/RecSys-session-based/"
+           data-title="推荐系统系列-行为序列建模" data-url="http://yoursite.com/2019/06/25/RecSys-session-based/">
       </div>
     
   </div>
@@ -634,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#贫女"><span class="nav-number">1.</span> <span class="nav-text">贫女</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#行为序列建模"><span class="nav-number">1.</span> <span class="nav-text">行为序列建模</span></a></li></ol></div>
             
 
           </div>
