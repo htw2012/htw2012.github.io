@@ -298,6 +298,178 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/vat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/08/vat/" itemprop="url">
+                  vat
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T20:37:48+08:00">
+                2019-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GAN/" itemprop="url" rel="index">
+                    <span itemprop="name">GAN</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GAN/虚拟对抗训练/" itemprop="url" rel="index">
+                    <span itemprop="name">虚拟对抗训练</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/08/vat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/08/vat/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.Word Embedding Perturbation for Sentence Classification</p>
+<p>在答案选择、关系分类、情感分类上，在word embedding上面实现对抗</p>
+<p>code:<a href="https://github.com/zhangdongxu/word-embedding-perturbation" target="_blank" rel="external">https://github.com/zhangdongxu/word-embedding-perturbation</a></p>
+<p>2.<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1808.03908" target="_blank" rel="external">Adversarial Personalized Ranking for Recommendation</a></p>
+<p>VAT是在对抗训练的基础上将监督学习模型扩展到半监督学习模型，同时模型在同向噪声鲁棒性提高到可以在异向噪声具有鲁棒性，在监督和半监督条件下都取得不错的实验结果。</p>
+<p><strong>3. Virtual Adversarial Training: a Regularization Method for Supervised and Semi-supervised Learning</strong></p>
+<p>利用对抗的思想，要求模型对一个样本在施加对抗性噪声前后给出尽可能相同的预测值，从而对模型施加 smooth regularization，以此利用无标注样本进行半监督学习。论文仅用 100 个标注 MNIST 样本取得 1.36% 的测试误差，仅用 4000 个标注 CIFAR 样本取得 13.15% 的测试误差。</p>
+<p><a href="https://github.com/takerum/vat_tf" target="_blank" rel="external">Code</a></p>
+<p>4.<strong>Adversarial Dropout for Supervised and Semi-supervised Learning</strong></p>
+<p>Virtual Adverarial Training的变种，原来在 input data 上加对抗干扰，本文在网络中间层进行对抗性 dropout，取得了与 VAT 接近的半监督训练效果，配合原始 VAT 一起在 CIFAR 和 SVHN 上取得 state-of-the-art 的半监督学习性能</p>
+<p>5.Distributional Smoothing with Virtual Adversarial Training</p>
+<p>局部分布性平滑(LDS) 的方法，这是统计模型的一个新的光滑概念，可以用作正则化术语来促进模型分布的平滑</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2243,162 +2415,6 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/12/hard_time/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/12/hard_time/" itemprop="url">
-                  心理学书籍
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T08:58:30+08:00">
-                2017-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/book/" itemprop="url" rel="index">
-                    <span itemprop="name">book</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/12/hard_time/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/hard_time/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="心理学书籍收藏"><a href="#心理学书籍收藏" class="headerlink" title="心理学书籍收藏"></a>心理学书籍收藏</h3><p>相关书籍：</p>
-<p>《与“众”不同的心理学》，《助推-我们如何作出最佳选择》，《无从选择-为何多既是少》</p>
-<p>《让创意更有粘性》，《社会性动物》，《找寻逝去的自我》</p>
-<p>《引爆点》，《决断2秒间》，《异类：不一样的成功启示录》</p>
-<p>《决策与判断》，《别做正常的傻瓜》，《怪诞行为学》，</p>
-<p>《错不在我》，《本能》，《影响力》，</p>
-<p>《摇摆》，《进化心理学》，《学会提问》</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2448,7 +2464,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2459,7 +2475,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
