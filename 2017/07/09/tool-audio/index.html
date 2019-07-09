@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Recommendation,BERT," />
+  <meta name="keywords" content="audio," />
 
 
 
@@ -105,19 +105,28 @@
 
 
 
-<meta name="description" content="BERT在推荐系统的梳理1.Pre-training of Context-aware Item Representation for Next Basket Recommendation
-作者：Jingxuan Yang1, Jun Xu2, Jianzhuo Tong1, Sheng Gao1, Jun Guo1, Jirong Wen2 1Beijng University of Posts">
+<meta name="description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
 <meta property="og:type" content="article">
-<meta property="og:title" content="推荐系统前沿系列-BERT方法">
-<meta property="og:url" content="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/index.html">
+<meta property="og:title" content="音频特征抽取">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/tool-audio/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="BERT在推荐系统的梳理1.Pre-training of Context-aware Item Representation for Next Basket Recommendation
-作者：Jingxuan Yang1, Jun Xu2, Jianzhuo Tong1, Sheng Gao1, Jun Guo1, Jirong Wen2 1Beijng University of Posts">
-<meta property="og:updated_time" content="2019-07-02T15:58:56.292Z">
+<meta property="og:description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
+<meta property="og:updated_time" content="2019-07-09T08:16:10.324Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="推荐系统前沿系列-BERT方法">
-<meta name="twitter:description" content="BERT在推荐系统的梳理1.Pre-training of Context-aware Item Representation for Next Basket Recommendation
-作者：Jingxuan Yang1, Jun Xu2, Jianzhuo Tong1, Sheng Gao1, Jun Guo1, Jirong Wen2 1Beijng University of Posts">
+<meta name="twitter:title" content="音频特征抽取">
+<meta name="twitter:description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
 
 
 
@@ -145,13 +154,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/09/tool-audio/"/>
 
 
 
 
 
-  <title> 推荐系统前沿系列-BERT方法 | 数据娃嚼AI </title>
+  <title> 音频特征抽取 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -300,7 +309,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/tool-audio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -321,7 +330,7 @@
             
             
               
-                推荐系统前沿系列-BERT方法
+                音频特征抽取
               
             
           </h1>
@@ -336,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-02T23:56:36+08:00">
-                2019-07-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T16:14:23+08:00">
+                2017-07-09
               </time>
             
 
@@ -359,19 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
-                    <span itemprop="name">推荐系统</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/BERT/" itemprop="url" rel="index">
-                    <span itemprop="name">BERT</span>
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
                   </a>
                 </span>
 
@@ -388,8 +386,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/02/RecSys-Advance-BERT/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/02/RecSys-Advance-BERT/" itemprop="commentCount"></span>
+                <a href="/2017/07/09/tool-audio/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/09/tool-audio/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -415,14 +413,59 @@
       
 
       
-        <h3 id="BERT在推荐系统的梳理"><a href="#BERT在推荐系统的梳理" class="headerlink" title="BERT在推荐系统的梳理"></a>BERT在推荐系统的梳理</h3><p>1.Pre-training of Context-aware Item Representation for Next Basket Recommendation</p>
-<p>作者：Jingxuan Yang1, Jun Xu2, Jianzhuo Tong1, Sheng Gao1, Jun Guo1, Jirong Wen2 1Beijng University of Posts and Telecommunications</p>
-<p>单位：北邮、中国人民大学</p>
-<p>ArXiv版本号:1904.12604.pdf</p>
-<p>2.BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer</p>
-<p>作者：Fei Sun, Jun Liu, Jian Wu, Changhua Pei, Xiao Lin, Wenwu Ou, and Peng Jiang</p>
-<p>单位：阿里巴巴</p>
-<p>ArXiv版本号:1904.06690.pdf</p>
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>原材料：视频文件(signed 16-bit PCM)/音频</p>
+<p>工具：VGGish/ffmpeg</p>
+<p>任务：抽取音频文件的embedding语义向量.</p>
+<p>下载地址：<a href="https://github.com/tensorflow/models/tree/master/research/audioset/vggish" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset/vggish</a></p>
+<h4 id="VGGish基础介绍"><a href="#VGGish基础介绍" class="headerlink" title="VGGish基础介绍"></a>VGGish基础介绍</h4><p>在<a href="https://link.zhihu.com/?target=https%3A//research.google.com/audioset/download.html" target="_blank" rel="external">AudioSet</a>是Google发行的声音版ImageNet上训练得到预训练模型，该模型可以将音频文件抽取为128维度的语义向量，除了直接抽取特征外，还可以进行针对特定的任务进行FineTuning操作。</p>
+<h5 id="VGGish-vs-VGG"><a href="#VGGish-vs-VGG" class="headerlink" title="VGGish vs VGG"></a>VGGish vs VGG</h5><p>VGGish是 <a href="https://arxiv.org/abs/1409.1556" target="_blank" rel="external">VGG</a>的变体，含有11个权重层，具体有如下改变：</p>
+<ul>
+<li>输入大小修改为96x64，log mel spectrogram的音频输入</li>
+<li>去掉了最后一组的conv和pool层，有4组结构而不是5组e.</li>
+<li>全联接层(compact embedding层)不是想image那样使用1000而是使用的是128维度的.</li>
+</ul>
+<h5 id="VGGish依赖包"><a href="#VGGish依赖包" class="headerlink" title="VGGish依赖包"></a>VGGish依赖包</h5><ul>
+<li><a href="http://www.numpy.org/" target="_blank" rel="external"><code>numpy</code></a></li>
+<li><a href="http://www.scipy.org/" target="_blank" rel="external"><code>scipy</code></a></li>
+<li><a href="http://resampy.readthedocs.io/en/latest/" target="_blank" rel="external"><code>resampy</code></a></li>
+<li><a href="http://www.tensorflow.org/" target="_blank" rel="external"><code>tensorflow</code></a></li>
+<li><a href="https://pythonhosted.org/six/" target="_blank" rel="external"><code>six</code></a></li>
+<li><a href="https://pysoundfile.readthedocs.io/" target="_blank" rel="external"><code>pysoundfile</code></a></li>
+</ul>
+<h5 id="VGGish文件结构："><a href="#VGGish文件结构：" class="headerlink" title="VGGish文件结构："></a>VGGish文件结构：</h5><ul>
+<li><code>vggish_slim.py</code>: Model definition in TensorFlow Slim notation.</li>
+<li><code>vggish_params.py</code>: Hyperparameters.</li>
+<li><code>vggish_input.py</code>: Converter from audio waveform into input examples.</li>
+<li><code>mel_features.py</code>: Audio feature extraction helpers.</li>
+<li><code>vggish_postprocess.py</code>: Embedding postprocessing.</li>
+<li><code>vggish_inference_demo.py</code>: Demo of VGGish in inference mode.</li>
+<li><code>vggish_train_demo.py</code>: Demo of VGGish in training mode.</li>
+<li><code>vggish_smoke_test.py</code>: Simple test of a VGGish installation</li>
+</ul>
+<h4 id="VGGish使用介绍"><a href="#VGGish使用介绍" class="headerlink" title="VGGish使用介绍"></a>VGGish使用介绍</h4><p>音频文件：signed 16-bit PCM samples</p>
+<p>使用示例: vggish_inference_demo.py</p>
+<ul>
+<li><p>计算log mel spectrogram()<br>examples_batch = vggish_input.wavfile_to_examples(wav_file)</p>
+</li>
+<li><p>vggish抽取 </p>
+<p>features_tensor = sess.graph.get_tensor_by_name(vggish_params.INPUT_TENSOR_NAME)<br>embedding_tensor = sess.graph.get_tensor_by_name(vggish_params.OUTPUT_TENSOR_NAME)[embedding_batch] = sess.run([embedding_tensor], feed_dict={features_tensor: examples_batch})</p>
+</li>
+<li><p>后处理</p>
+<p>PCA变换+8bit定点化</p>
+</li>
+</ul>
+<p>VGGish was trained with audio features computed as follows:</p>
+<ul>
+<li>All audio is resampled to 16 kHz mono.</li>
+<li>A spectrogram is computed using magnitudes of the Short-Time Fourier Transform with a window size of 25 ms, a window hop of 10 ms, and a periodic Hann window.</li>
+<li>A mel spectrogram is computed by mapping the spectrogram to 64 mel bins covering the range 125-7500 Hz.</li>
+<li>A stabilized log mel spectrogram is computed by applying log(mel-spectrum + 0.01) where the offset is used to avoid taking a logarithm of zero.</li>
+<li>These features are then framed into non-overlapping examples of 0.96 seconds, where each example covers 64 mel bands and 96 frames of 10 ms each.</li>
+</ul>
+<h4 id="视频抽取音频"><a href="#视频抽取音频" class="headerlink" title="视频抽取音频"></a>视频抽取音频</h4><p>ffmpeg -y -i  xxx.mp4  -ar 16000 -ac  1  xxx.wav</p>
+<p>主要参数含义：</p>
+<p>-y: 覆盖输出的文件</p>
+<p>-ar rate            set audio sampling rate (in Hz)<br>-ac channels        set number of audio channels</p>
 
       
     </div>
@@ -446,9 +489,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Recommendation/" rel="tag"># Recommendation</a>
-          
-            <a href="/tags/BERT/" rel="tag"># BERT</a>
+            <a href="/tags/audio/" rel="tag"># audio</a>
           
         </div>
       
@@ -461,8 +502,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/01/RecSys-Advance-GAN/" rel="next" title="推荐系统前沿系列-生成对抗网络">
-                <i class="fa fa-chevron-left"></i> 推荐系统前沿系列-生成对抗网络
+              <a href="/2017/04/07/net-evolve/" rel="next" title="基于遗传生命的自动网络结构生成">
+                <i class="fa fa-chevron-left"></i> 基于遗传生命的自动网络结构生成
               </a>
             
           </div>
@@ -471,8 +512,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/08/vat/" rel="prev" title="虚拟对抗训练">
-                虚拟对抗训练 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/21/conv-family/" rel="prev" title="卷积家族梳理">
+                卷积家族梳理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -488,10 +529,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2019/07/02/RecSys-Advance-BERT/"
-     data-title="推荐系统前沿系列-BERT方法"
+        <div class="ds-share flat" data-thread-key="2017/07/09/tool-audio/"
+     data-title="音频特征抽取"
      data-content=""
-     data-url="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/">
+     data-url="http://yoursite.com/2017/07/09/tool-audio/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -518,8 +559,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/07/02/RecSys-Advance-BERT/"
-           data-title="推荐系统前沿系列-BERT方法" data-url="http://yoursite.com/2019/07/02/RecSys-Advance-BERT/">
+      <div class="ds-thread" data-thread-key="2017/07/09/tool-audio/"
+           data-title="音频特征抽取" data-url="http://yoursite.com/2017/07/09/tool-audio/">
       </div>
     
   </div>
@@ -645,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#BERT在推荐系统的梳理"><span class="nav-number">1.</span> <span class="nav-text">BERT在推荐系统的梳理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGish基础介绍"><span class="nav-number">2.</span> <span class="nav-text">VGGish基础介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish-vs-VGG"><span class="nav-number">2.1.</span> <span class="nav-text">VGGish vs VGG</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish依赖包"><span class="nav-number">2.2.</span> <span class="nav-text">VGGish依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish文件结构："><span class="nav-number">2.3.</span> <span class="nav-text">VGGish文件结构：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGish使用介绍"><span class="nav-number">3.</span> <span class="nav-text">VGGish使用介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视频抽取音频"><span class="nav-number">4.</span> <span class="nav-text">视频抽取音频</span></a></li></ol></div>
             
 
           </div>

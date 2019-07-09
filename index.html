@@ -2047,7 +2047,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/net-evolve/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/tool-audio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -2069,8 +2069,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/04/07/net-evolve/" itemprop="url">
-                  基于遗传生命的自动网络结构生成
+                <a class="post-title-link" href="/2017/07/09/tool-audio/" itemprop="url">
+                  音频特征抽取
                 </a>
               
             
@@ -2086,8 +2086,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T21:47:14+08:00">
-                2017-04-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T16:14:23+08:00">
+                2017-07-09
               </time>
             
 
@@ -2109,8 +2109,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AutoML/" itemprop="url" rel="index">
-                    <span itemprop="name">AutoML</span>
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
                   </a>
                 </span>
 
@@ -2127,8 +2127,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/07/net-evolve/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/07/net-evolve/" itemprop="commentCount"></span>
+                <a href="/2017/07/09/tool-audio/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/09/tool-audio/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2156,235 +2156,59 @@
       
         
           
-            <p>完成时间：2016.10-2017.01</p>
-<h4 id="整体概述"><a href="#整体概述" class="headerlink" title="整体概述"></a>整体概述</h4><p>用基因个体的方式去描述网络结构，对应关系如下:<br>卷积神经网络模型（cnn）对应于生物个体，网络层(卷积层)对应于染色体，层的属性（卷积核的大小）对应于基因。</p>
-<p>核心思想：通过种群的个体之间进行一些遗传操作获得不同的个体，个体代代相传，优胜劣汰的机制选出最佳个体，获得性能较好的模型结构。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">input :网络结构参数（种群的大小，局部种群的大小，进化的次数，操作的类型，基因的类型）</div><div class="line">output:最好的性能结构的top-k个及性能得分</div></pre></td></tr></table></figure></p>
-<h4 id="基础原理详细介绍"><a href="#基础原理详细介绍" class="headerlink" title="基础原理详细介绍"></a>基础原理详细介绍</h4><h5 id="CNN通用组成分析"><a href="#CNN通用组成分析" class="headerlink" title="CNN通用组成分析"></a>CNN通用组成分析</h5><p> 对比目前人工设计的卷积神经网络，诸如LexNet网络，ImageNet,VGG16,VGG19,All-CNNs,NIN,ResNet,GoogleNet,FractalNet,DenseNet等结构，我们发现这些卷积神经网络的结构都是由一些基础的结构单元所组成。归纳一下卷积神经网络的主要结构由以下部分组成：</p>
-<ol>
-<li>卷积层<br> 卷积层含有的属性包括卷积层抽取特征的nb_filter个数，卷积核的大小（长和高的大小），初始化init方式，卷积移动stride步数，border_mode模式(same或者valid)。</li>
-<li>激活函数层<br> 激活函数层包含的属性取值为tanh,sigmoid,relu,relu的各种变体</li>
-<li>pool层<br> pool层的大小取值为pool的length长度，移动的步数stride，padding数目，还有就是pool类型比如maxp,average等。</li>
-<li>全连接层<br> 主要的变化点是隐层单元的个数以及激活函数的类型</li>
-<li>分类层<br>同全连接一样只不过是隐层单元个数为类标签的个数</li>
-<li>Dropout层<br>正则化系数，主要指的是丢弃权值的比例  </li>
-<li>BatchNormatization层<br> 主要是每批训练的每个样本减去它的均值除以它的方差，再乘以一个alpha和beta系数，主要变化点为alpha和beta系数。</li>
-<li>Skip Connection.<br> 主要指的是结构上的跳跃，从何凯明的文章以及后续许多带shortcuts结构可以知道是可以缓解梯度消失或梯度膨胀的问题，在低层与高层之间建立“捷径”。</li>
-</ol>
-<p>完全利用以上结构进行组成的卷积神经网络结构的参数空间是巨大的，是一个NP问题。<br>假设一个d层神经网络，层的类型个数为s,每层含有k个属性，每个属性的取值为t个，那么其搜索空间的范围为：$(skt)^d$ ,  这个数字比较的大，比如针对10层的神经网络，5种类型层，每层含有3个属性，每个属性取值5个，那么结构的个数为$75^{10}=10^{17.8}$  。这个空间的搜索范围就比较大了。</p>
-<p>为了进一步减少空间的搜索范围和搜索时间，需要做了一下简单的处理：</p>
-<pre><code>1. 卷积层中由于属性较多，stride固定设置为1， border_mode模式设置为same即经过卷积不改变大小，卷积层的权值初始化方式为随机取值。
-2. 激活函数的使用过程中只是在卷积层使用，默认和卷积层绑定，理论上如果加入BN操作需要剥离开，约定激活函数在全连接层使用relu,分类层使用softmax层激活函数。
-3. 使用的Dropout用于全连接层，设定固定值0.5
-4. Poolng层设置为2，strides的大小等于pooling的大小，另外使用的是maxpling.
-5. 不考虑Skip-Connnection和BatchNormatization操作，简化搜索的空间
-6. 全连接层默认固定为512个隐层神经单元。
-7. 分类层上加一个正则化约束因子L2,防止过拟合
-8. 训练时迭代次数设置100次，如果10次性能不提高，终止训练。
-</code></pre><p>综上，模型探索中可以变化点主要来自于卷积层的filter个数的大小和maxpling的结合情况。这里filter个数设置为16,32,48,96,128,196,256,512,还有就是加入pooling操作。</p>
-<p>针对10层模型，不考虑pooling，上面8种filter的搜索空间的个数为：8^10 ，相对而言训练的模型的个数还是比较多的。在实际实施过程中，我们采取的是将这8种filter划分成多组5个filter分别进行训练，减少参数搜索的空间，最后再将不同组的进化结果进行汇总。</p>
-<h5 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h5><ul>
-<li><p>基础操作定义</p>
-<pre><code>1. 自身复制.
-    主要是借鉴类似于vgg或者ResNet等结构，为了产生复杂的结构都是像conv+conv+maxp等类似block的结构不断的重复复制所产生。
-2. 交叉组合。
-    以个体序列S1=a1_a2_a3_a4和个体序列S2=b1_b2_b3_b4为例,它们进行交叉组合的种类是比较多的，
-    这里采用的策略是：随机在个体序列S1和S2之间选择交叉点p1,p2.假设p1=a2,p2=b3,那么它们产生的交叉个体为：
-      a1_a2_b3_b4,
-      a1_a2_b1_b2,
-      b1_b2_a1_a2,
-      b1_b2_a3_a4
-      这四个交叉组合个体。
-3. 变异操作。
-   假设个体的序列为a1_a2_a3_a4，那么随机产生一个随机点，比如说a2,这里有两种情况：
-       如果a2是一个maxp,那么变异操作保持不变，
-       如果是conv,filter个数是f1，那么随机在之前的filter集合中S去掉f1,即S-f1中任意的一个元素.
-</code></pre></li>
-<li><p>进化的性能评价指标：</p>
-<p> 性能的评价指标是单个个体（模型）的训练获得的性能得分值，用于筛选模型好坏的度量。</p>
-<p> 考虑到模型训练具有一定的随机性使用比率进行度量，即两个模型的得分为s1,s2,如果s1&gt;s2 &amp;&amp; abs(s1-s2)/s2&gt;r， 则认为s1的性能比s2好。</p>
-</li>
-</ul>
-<h5 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h5><p>进化的整个过程主要分为两步：</p>
+            <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>原材料：视频文件(signed 16-bit PCM)/音频</p>
+<p>工具：VGGish/ffmpeg</p>
+<p>任务：抽取音频文件的embedding语义向量.</p>
+<p>下载地址：<a href="https://github.com/tensorflow/models/tree/master/research/audioset/vggish" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset/vggish</a></p>
+<h4 id="VGGish基础介绍"><a href="#VGGish基础介绍" class="headerlink" title="VGGish基础介绍"></a>VGGish基础介绍</h4><p>在<a href="https://link.zhihu.com/?target=https%3A//research.google.com/audioset/download.html" target="_blank" rel="external">AudioSet</a>是Google发行的声音版ImageNet上训练得到预训练模型，该模型可以将音频文件抽取为128维度的语义向量，除了直接抽取特征外，还可以进行针对特定的任务进行FineTuning操作。</p>
+<h5 id="VGGish-vs-VGG"><a href="#VGGish-vs-VGG" class="headerlink" title="VGGish vs VGG"></a>VGGish vs VGG</h5><p>VGGish是 <a href="https://arxiv.org/abs/1409.1556" target="_blank" rel="external">VGG</a>的变体，含有11个权重层，具体有如下改变：</p>
 <ul>
-<li><p>step1. 初始步。</p>
-<p>根据设置的初始种群大小L，随机均匀的散落初始个体（有单个的基因组成比如conv(12),maxp）到L×L的初始种群中，针对这L×L个个体分别进行训练，得到一个性能得分,填充整个L×L个空间。</p>
-</li>
-<li>step2. 进化步。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1. 随机选择一个个体S1,以S1为中心点选择一个半径为d的局部种群，随机在d*d-1个局部种群中选择一个个体S2.这里假设S1的模型序列为a1_a2_a3_a4,S2的序列为b1_b2_b3_b4</div><div class="line">2. 自身复制。</div><div class="line">以中心点S1进行自身复制操作产生一个新的个体S3，进行训练获得其性能得分假设为s_3.</div><div class="line">3. 进行交叉组合。</div><div class="line">如上面提到的操作部分进行随机的交叉组合产生4个个体，分别获得其性能得分假设为c1,c2,c3,c4.</div><div class="line">4. 选择较好的组合或者自身复制个体，记最好的性能得分为max_c，即max_c=max&#123;s3,c1,c2,c3,c4&#125;。</div><div class="line">这时可能出现如下三种情况：</div><div class="line">a. 如果max_c比s1的性能要差,那么直接跳到step2,进行下一次进化操作</div><div class="line">b. 如果max_c比s1的性能要好，但比s2的性能要差，这时max_c的结构替换掉s1的结构，那么需要进行第5步变异步</div><div class="line">c. 如果max_c比s1的性能要好，也比s2的性能要好，这时max_c的结构替换掉s1的结构，同时也替换掉s2的结构，那么需要进行第5步变异步操作。</div><div class="line">5. 变异步操作。</div><div class="line">去除s1和s2的局部种群中除去s1,s2外随机选择出两个最差的个体l1,l2,如变异操作描述那样，针对max_c的结构进行实施变异操作。</div></pre></td></tr></table></figure>
-</li>
+<li>输入大小修改为96x64，log mel spectrogram的音频输入</li>
+<li>去掉了最后一组的conv和pool层，有4组结构而不是5组e.</li>
+<li>全联接层(compact embedding层)不是想image那样使用1000而是使用的是128维度的.</li>
 </ul>
-<h4 id="CNN网络结构生成在图片分类中应用"><a href="#CNN网络结构生成在图片分类中应用" class="headerlink" title="CNN网络结构生成在图片分类中应用"></a>CNN网络结构生成在图片分类中应用</h4><h5 id="相关参数和模型的设置"><a href="#相关参数和模型的设置" class="headerlink" title="相关参数和模型的设置"></a>相关参数和模型的设置</h5><ol>
-<li><p>数据集</p>
-<p> CIFAR10数据集，50000训练和10000测试，10个类别。</p>
-</li>
-<li><p>单次训练的参数统一设置。</p>
-<pre><code>- 训练算法的选择：
-  带动量的随机梯度下降算法，使用nesterov进行初始化，初始学习率设置为0.1，动量因子0.9，衰减因子设置为1e-6。
-- 误差函数
-  误差函数选择交叉熵，度量指标为准确率       
-- 结构参数：
-  训练次数设置100次，10次性能不提高终止训练。
-  固定模型的全连接层的隐层单元为512个，dropout=0.5，分类层标签数为10。
-</code></pre></li>
-<li><p>进化过程参数设置</p>
-<pre><code>- 基础算子的选择：
-  卷积层的filter选择了16，32,64,96,128,196,224,256,512.
-  pooling层，默认设为2,stride设置也为2
-- 进化次数设置150次
-</code></pre></li>
-<li><p>数据处理说明  </p>
-<pre><code>- 数据增强:
-  进行旋转操作，水平和竖直方向进行平移操作
-- 数据处理:
-  未加入零均值规范化处理
-</code></pre></li>
-<li><p>进化过程说明  </p>
-<pre><code>- 在实际运行过程中由于将不同种类型的filter和maxp加在一起去探索网络结构和网络结构的参数，这样的参数空间比较大，采取的策略是将filter划分成多份，进行多次进化，节省总的参数搜索空间，再将最终结果汇总。
-- 模型开始的时候不适合将maxp开始，统一处理第一层以卷积层开始。
-- CIFAR10数据集上有增强和非增强的操作，考虑到进行增强操作比较耗时，我们进行实验时在非增强的数据集上进行实验。
-</code></pre></li>
-</ol>
-<h5 id="相关训练结果展示"><a href="#相关训练结果展示" class="headerlink" title="相关训练结果展示"></a>相关训练结果展示</h5><ol>
-<li><p>非增强的结果展示。</p>
-<p> 实际过程中训练了大约957个实例，选择5个较好的模型如下：</p>
-<pre><code>model-0-&apos;0.8138&apos;
-model-1-&apos;0.8067&apos;
-model-2-&apos;0.8064&apos;
-model-3-&apos;0.8046&apos;
-model-29-&apos;0.7944&apos;
-</code></pre></li>
-</ol>
-<blockquote>
-<p>备注:模型标号对应的结构参见模型附录B部分<br>这里实验结果中是非增强的实验效果，数据处理这块，未加入零均值规范化处理和数据增强。<br>模型按照filter拆分了多组结果比如filter个数为{16，32,64,96,128}，{32,64,96,128，192}，{32,64,128,256,512}等多组.</p>
-</blockquote>
-<h5 id="CIFAR10进行非增强的参数调优"><a href="#CIFAR10进行非增强的参数调优" class="headerlink" title="CIFAR10进行非增强的参数调优"></a>CIFAR10进行非增强的参数调优</h5><p>选择训练的模型（model-29-‘0.7944’）进行一定程度的性能调优，调优过程如下</p>
-<ol>
-<li><p>数据规范化处理</p>
-<p> 原始模型能达到0.8324</p>
-</li>
-<li><p>零均值规范化处理和学习率动态改变(两次调整,10次性能不提高学习率就缩小为原来的0.1)</p>
-<p> 性能能提高到0.8524.</p>
-</li>
-<li>其它操作。<br> 比如加入BN，梯度剪切，全连接层调节，dropout调节等，性能影响不太.</li>
-</ol>
-<p>由于硬件资源的原因，为了能得到增强操作的结果，我们直接进行在非增强的模型结构进行增强操作，而在非增强结构中进行直接的增强训练发现，非增强:0.7944,增强最好结果是0.9196，非增强:0.8138,增强最好结果是0.9169，增强和非增强的效果并非保持一致的，另外考虑非增强和增强操作可能会导致结构上的差别，我们选择非增强的最好的30个模型进行增强操作重新训练，训练结果如下部分。</p>
-<h5 id="CIFAR10进行增强操作选择最优结果"><a href="#CIFAR10进行增强操作选择最优结果" class="headerlink" title="CIFAR10进行增强操作选择最优结果"></a>CIFAR10进行增强操作选择最优结果</h5><ul>
-<li><p>实验结果</p>
-<p>  直接进行数据增强和学习率的调整，选择top-5个模型的机构编号及性能如下：</p>
-<p>  <img src="images/top-5.png" title="top-5.png"></p>
-</li>
+<h5 id="VGGish依赖包"><a href="#VGGish依赖包" class="headerlink" title="VGGish依赖包"></a>VGGish依赖包</h5><ul>
+<li><a href="http://www.numpy.org/" target="_blank" rel="external"><code>numpy</code></a></li>
+<li><a href="http://www.scipy.org/" target="_blank" rel="external"><code>scipy</code></a></li>
+<li><a href="http://resampy.readthedocs.io/en/latest/" target="_blank" rel="external"><code>resampy</code></a></li>
+<li><a href="http://www.tensorflow.org/" target="_blank" rel="external"><code>tensorflow</code></a></li>
+<li><a href="https://pythonhosted.org/six/" target="_blank" rel="external"><code>six</code></a></li>
+<li><a href="https://pysoundfile.readthedocs.io/" target="_blank" rel="external"><code>pysoundfile</code></a></li>
 </ul>
-<blockquote>
-<p>注：模型标号对应的结构参见模型附录B部分</p>
-</blockquote>
+<h5 id="VGGish文件结构："><a href="#VGGish文件结构：" class="headerlink" title="VGGish文件结构："></a>VGGish文件结构：</h5><ul>
+<li><code>vggish_slim.py</code>: Model definition in TensorFlow Slim notation.</li>
+<li><code>vggish_params.py</code>: Hyperparameters.</li>
+<li><code>vggish_input.py</code>: Converter from audio waveform into input examples.</li>
+<li><code>mel_features.py</code>: Audio feature extraction helpers.</li>
+<li><code>vggish_postprocess.py</code>: Embedding postprocessing.</li>
+<li><code>vggish_inference_demo.py</code>: Demo of VGGish in inference mode.</li>
+<li><code>vggish_train_demo.py</code>: Demo of VGGish in training mode.</li>
+<li><code>vggish_smoke_test.py</code>: Simple test of a VGGish installation</li>
+</ul>
+<h4 id="VGGish使用介绍"><a href="#VGGish使用介绍" class="headerlink" title="VGGish使用介绍"></a>VGGish使用介绍</h4><p>音频文件：signed 16-bit PCM samples</p>
+<p>使用示例: vggish_inference_demo.py</p>
 <ul>
-<li><p>结果对比</p>
-<p>  对比一下MIT的利用强化学习生成网络结构的实验结果为：</p>
-<p>  <img src="images/cifar10-error.png" title="cifar10-error.png"></p>
-<p>  但从数据上看，我们的实验效果最好的误差率为7.62，其结果要比要比highway，maxout,FitNet等人工设计的结构要好，比VGG和All-CNNs略差。</p>
+<li><p>计算log mel spectrogram()<br>examples_batch = vggish_input.wavfile_to_examples(wav_file)</p>
 </li>
-<li><p>实验分析</p>
+<li><p>vggish抽取 </p>
+<p>features_tensor = sess.graph.get_tensor_by_name(vggish_params.INPUT_TENSOR_NAME)<br>embedding_tensor = sess.graph.get_tensor_by_name(vggish_params.OUTPUT_TENSOR_NAME)[embedding_batch] = sess.run([embedding_tensor], feed_dict={features_tensor: examples_batch})</p>
+</li>
+<li><p>后处理</p>
+<p>PCA变换+8bit定点化</p>
+</li>
+</ul>
+<p>VGGish was trained with audio features computed as follows:</p>
 <ul>
-<li><p>从上面结果看，其生成的结构和人工涉及的结构差异比较大，存在conv_conv_conv_maxp，conv_conv_maxp,conv_conv_conv_conv_maxp等结构，其具体的filter个数结构都不一样，人工很难去设计这样的结构。</p>
-</li>
-<li><p>从生成结构的层数看，VGG结构最少是16层，我们的结构是10个卷积层外加一个全连接和分类层，共12层，层数要比其少。</p>
-</li>
-<li><p>从参数规模上看，生成top-30个模型生成的模型基本上在1.2M-13M的规模，top-5个参数的规模约5M。</p>
-</li>
+<li>All audio is resampled to 16 kHz mono.</li>
+<li>A spectrogram is computed using magnitudes of the Short-Time Fourier Transform with a window size of 25 ms, a window hop of 10 ms, and a periodic Hann window.</li>
+<li>A mel spectrogram is computed by mapping the spectrogram to 64 mel bins covering the range 125-7500 Hz.</li>
+<li>A stabilized log mel spectrogram is computed by applying log(mel-spectrum + 0.01) where the offset is used to avoid taking a logarithm of zero.</li>
+<li>These features are then framed into non-overlapping examples of 0.96 seconds, where each example covers 64 mel bands and 96 frames of 10 ms each.</li>
 </ul>
-</li>
-</ul>
-<h4 id="相关实验经验总结"><a href="#相关实验经验总结" class="headerlink" title="相关实验经验总结"></a>相关实验经验总结</h4><h5 id="相关问题及处理策略"><a href="#相关问题及处理策略" class="headerlink" title="相关问题及处理策略"></a>相关问题及处理策略</h5><ol>
-<li><p>CNN网络大小不够用的情况，进行了reshape操作</p>
-</li>
-<li><p>节省时间，采用缓存模型的策略，避免了多余的训练</p>
-</li>
-<li>性能比较的地方使用了比率</li>
-<li>种群结束的条件使用了次数和最好和最差的的绝对值。</li>
-</ol>
-<h5 id="相关尝试和经验"><a href="#相关尝试和经验" class="headerlink" title="相关尝试和经验"></a>相关尝试和经验</h5><p>关键因素</p>
-<ol>
-<li>数据增强影响比较大</li>
-<li>对图片进行零均值规范化处理影响比较大。</li>
-<li>学习率动态的改变影响较大。</li>
-</ol>
-<p>非关键因素</p>
-<ol>
-<li>全连接层可以变为GlobalAvgPooling，性能提高不大</li>
-<li>学习策略的改变比如adam或者rmsprop的提升并不大</li>
-<li>加入BN和Skip-Connnection在深层的时候有一点提升，浅层的时候影响不大</li>
-<li>在训练的CONV权重上加入规范化处理.W_constraint = maxnorm(2)</li>
-<li>全连接层大小修改以及梯度剪切的处理性能也变化不大。</li>
-</ol>
-<h4 id="模型附录"><a href="#模型附录" class="headerlink" title="模型附录"></a>模型附录</h4><ul>
-<li><p>A. 非增强的30个模型结构。</p>
-<pre><code>model-0,model structure:(&apos;init-0&apos;, &apos;0.8138&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-1,model structure:(&apos;init-1&apos;, &apos;0.8067&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-2,model structure:(&apos;init-2&apos;, &apos;0.8064&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-3,model structure:(&apos;init-3&apos;, &apos;0.8046&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-4,model structure:(&apos;init-4&apos;, &apos;0.8017&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 48)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-5,model structure:(&apos;init-5&apos;, &apos;0.8016&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-6,model structure:(&apos;init-6&apos;, &apos;0.8015&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-7,model structure:(&apos;init-7&apos;, &apos;0.8015&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-model-8,model structure:(&apos;init-8&apos;, &apos;0.8008&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-model-9,model structure:(&apos;init-9&apos;, &apos;0.8007&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-10,model structure:(&apos;init-10&apos;, &apos;0.8002&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-11,model structure:(&apos;init-11&apos;, &apos;0.7997&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-12,model structure:(&apos;init-12&apos;, &apos;0.7996&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-model-13,model structure:(&apos;init-13&apos;, &apos;0.7995&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-model-14,model structure:(&apos;init-14&apos;, &apos;0.7995&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-15,model structure:(&apos;init-15&apos;, &apos;0.7992&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-16,model structure:(&apos;init-16&apos;, &apos;0.7989&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-17,model structure:(&apos;init-17&apos;, &apos;0.7981&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-18,model structure:(&apos;init-18&apos;, &apos;0.7979&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-19,model structure:(&apos;init-19&apos;, &apos;0.7975&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-20,model structure:(&apos;init-20&apos;, &apos;0.7969&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-21,model structure:(&apos;init-21&apos;, &apos;0.7967&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-model-22,model structure:(&apos;init-22&apos;, &apos;0.7964&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-23,model structure:(&apos;init-23&apos;, &apos;0.7964&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-24,model structure:(&apos;init-24&apos;, &apos;0.7956&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-25,model structure:(&apos;init-25&apos;, &apos;0.7955&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-model-26,model structure:(&apos;init-26&apos;, &apos;0.7947&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-model-27,model structure:(&apos;init-27&apos;, &apos;0.7945&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-model-28,model structure:(&apos;init-28&apos;, &apos;0.7945&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)])])
-</code></pre></li>
-<li><p>B. 加入增强的30个模型结构。</p>
-<pre><code>(&apos;init-0&apos;, &apos;0.910200&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-1&apos;, &apos;0.917000&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-2&apos;, &apos;0.923800&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-3&apos;, &apos;0.911200&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-4&apos;, &apos;0.910800&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 48)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-5&apos;, &apos;0.919200&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-6&apos;, &apos;0.904100&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-7&apos;, &apos;0.905800&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-(&apos;init-8&apos;, &apos;0.909400&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-(&apos;init-9&apos;, &apos;0.904400&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-10&apos;, &apos;0.909500&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-11&apos;, &apos;0.921100&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-12&apos;, &apos;0.914900&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-(&apos;init-13&apos;, &apos;0.911000&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-(&apos;init-14&apos;, &apos;0.915900&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-15&apos;, &apos;0.909600&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 32)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-16&apos;, &apos;0.908000&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-18&apos;, &apos;0.902600&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-19&apos;, &apos;0.908300&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-20&apos;, &apos;0.908200&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-21&apos;, &apos;0.921500&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-(&apos;init-22&apos;, &apos;0.906100&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-23&apos;, &apos;0.905000&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-24&apos;, &apos;0.919700&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-25&apos;, &apos;0.904800&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-(&apos;init-26&apos;, &apos;0.913500&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)])])
-(&apos;init-27&apos;, &apos;0.912900&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 64)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 512)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)])])
-(&apos;init-28&apos;, &apos;0.909800&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 192)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 128)])])
-(&apos;init-29&apos;, &apos;0.916300&apos;, [(&apos;conv&apos;, [(&apos;nb_filter&apos;, 16)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)]), (&apos;maxp&apos;, [(&apos;pool_size&apos;, 2)]), (&apos;conv&apos;, [(&apos;nb_filter&apos;, 256)])])
-</code></pre></li>
-</ul>
-<h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><ul>
-<li>Large-Scale Evolution of Image Classifiers/<a href="https://arxiv.org/pdf/1703.01041v1.pdf" target="_blank" rel="external">https://arxiv.org/pdf/1703.01041v1.pdf</a></li>
-<li>DESIGNING NEURAL NETWORK A RCHITECTURES USING REINFORCEMENT LEARNING 1611.02167v2.pdf</li>
-<li>NEURAL ARCHITECTURE SEARCH WITH REINFORCEMENT LEARNING ICLR 2017</li>
-</ul>
+<h4 id="视频抽取音频"><a href="#视频抽取音频" class="headerlink" title="视频抽取音频"></a>视频抽取音频</h4><p>ffmpeg -y -i  xxx.mp4  -ar 16000 -ac  1  xxx.wav</p>
+<p>主要参数含义：</p>
+<p>-y: 覆盖输出的文件</p>
+<p>-ar rate            set audio sampling rate (in Hz)<br>-ac channels        set number of audio channels</p>
 
           
         
@@ -2465,7 +2289,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2476,7 +2300,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2487,7 +2311,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
