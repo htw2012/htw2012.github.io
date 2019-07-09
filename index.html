@@ -298,6 +298,224 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/tool-audio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/09/tool-audio/" itemprop="url">
+                  音频特征抽取
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T16:14:23+08:00">
+                2019-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/Audio/" itemprop="url" rel="index">
+                    <span itemprop="name">Audio</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/09/tool-audio/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/09/tool-audio/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>原材料：视频文件(signed 16-bit PCM)/音频</p>
+<p>工具：VGGish/ffmpeg</p>
+<p>任务：抽取音频文件的embedding语义向量.</p>
+<p>下载地址：<a href="https://github.com/tensorflow/models/tree/master/research/audioset/vggish" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset/vggish</a></p>
+<h4 id="VGGish基础介绍"><a href="#VGGish基础介绍" class="headerlink" title="VGGish基础介绍"></a>VGGish基础介绍</h4><p>在<a href="https://link.zhihu.com/?target=https%3A//research.google.com/audioset/download.html" target="_blank" rel="external">AudioSet</a>是Google发行的声音版ImageNet上训练得到预训练模型，该模型可以将音频文件抽取为128维度的语义向量，除了直接抽取特征外，还可以进行针对特定的任务进行FineTuning操作。</p>
+<h5 id="VGGish-vs-VGG"><a href="#VGGish-vs-VGG" class="headerlink" title="VGGish vs VGG"></a>VGGish vs VGG</h5><p>VGGish是 <a href="https://arxiv.org/abs/1409.1556" target="_blank" rel="external">VGG</a>的变体，含有11个权重层，具体有如下改变：</p>
+<ul>
+<li>输入大小修改为96x64，log mel spectrogram的音频输入</li>
+<li>去掉了最后一组的conv和pool层，有4组结构而不是5组e.</li>
+<li>全联接层(compact embedding层)不是想image那样使用1000而是使用的是128维度的.</li>
+</ul>
+<h5 id="VGGish依赖包"><a href="#VGGish依赖包" class="headerlink" title="VGGish依赖包"></a>VGGish依赖包</h5><ul>
+<li><a href="http://www.numpy.org/" target="_blank" rel="external"><code>numpy</code></a></li>
+<li><a href="http://www.scipy.org/" target="_blank" rel="external"><code>scipy</code></a></li>
+<li><a href="http://resampy.readthedocs.io/en/latest/" target="_blank" rel="external"><code>resampy</code></a></li>
+<li><a href="http://www.tensorflow.org/" target="_blank" rel="external"><code>tensorflow</code></a></li>
+<li><a href="https://pythonhosted.org/six/" target="_blank" rel="external"><code>six</code></a></li>
+<li><a href="https://pysoundfile.readthedocs.io/" target="_blank" rel="external"><code>pysoundfile</code></a></li>
+</ul>
+<h5 id="VGGish文件结构："><a href="#VGGish文件结构：" class="headerlink" title="VGGish文件结构："></a>VGGish文件结构：</h5><ul>
+<li><code>vggish_slim.py</code>: Model definition in TensorFlow Slim notation.</li>
+<li><code>vggish_params.py</code>: Hyperparameters.</li>
+<li><code>vggish_input.py</code>: Converter from audio waveform into input examples.</li>
+<li><code>mel_features.py</code>: Audio feature extraction helpers.</li>
+<li><code>vggish_postprocess.py</code>: Embedding postprocessing.</li>
+<li><code>vggish_inference_demo.py</code>: Demo of VGGish in inference mode.</li>
+<li><code>vggish_train_demo.py</code>: Demo of VGGish in training mode.</li>
+<li><code>vggish_smoke_test.py</code>: Simple test of a VGGish installation</li>
+</ul>
+<h4 id="VGGish使用介绍"><a href="#VGGish使用介绍" class="headerlink" title="VGGish使用介绍"></a>VGGish使用介绍</h4><p>音频文件：signed 16-bit PCM samples</p>
+<p>使用示例: vggish_inference_demo.py</p>
+<ul>
+<li><p>计算log mel spectrogram()<br>examples_batch = vggish_input.wavfile_to_examples(wav_file)</p>
+</li>
+<li><p>vggish抽取 </p>
+<p>features_tensor = sess.graph.get_tensor_by_name(vggish_params.INPUT_TENSOR_NAME)<br>embedding_tensor = sess.graph.get_tensor_by_name(vggish_params.OUTPUT_TENSOR_NAME)[embedding_batch] = sess.run([embedding_tensor], feed_dict={features_tensor: examples_batch})</p>
+</li>
+<li><p>后处理</p>
+<p>PCA变换+8bit定点化</p>
+</li>
+</ul>
+<p>VGGish was trained with audio features computed as follows:</p>
+<ul>
+<li>All audio is resampled to 16 kHz mono.</li>
+<li>A spectrogram is computed using magnitudes of the Short-Time Fourier Transform with a window size of 25 ms, a window hop of 10 ms, and a periodic Hann window.</li>
+<li>A mel spectrogram is computed by mapping the spectrogram to 64 mel bins covering the range 125-7500 Hz.</li>
+<li>A stabilized log mel spectrogram is computed by applying log(mel-spectrum + 0.01) where the offset is used to avoid taking a logarithm of zero.</li>
+<li>These features are then framed into non-overlapping examples of 0.96 seconds, where each example covers 64 mel bands and 96 frames of 10 ms each.</li>
+</ul>
+<h4 id="视频抽取音频"><a href="#视频抽取音频" class="headerlink" title="视频抽取音频"></a>视频抽取音频</h4><p>ffmpeg -y -i  xxx.mp4  -ar 16000 -ac  1  xxx.wav</p>
+<p>主要参数含义：</p>
+<p>-y: 覆盖输出的文件</p>
+<p>-ar rate            set audio sampling rate (in Hz)<br>-ac channels        set number of audio channels</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li>Gemmeke, J. et. al., <a href="https://research.google.com/pubs/pub45857.html" target="_blank" rel="external">AudioSet: An ontology and human-labelled dataset for audio events</a>, ICASSP 2017</li>
+<li>Hershey, S. et. al., <a href="https://research.google.com/pubs/pub45611.html" target="_blank" rel="external">CNN Architectures for Large-Scale Audio Classification</a>, ICASSP 2017</li>
+<li><a href="https://github.com/tensorflow/models/tree/master/research/audioset" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/vat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2008,219 +2226,6 @@
 </li>
 <li>GCN系列</li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/tool-audio/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/09/tool-audio/" itemprop="url">
-                  音频特征抽取
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-09T16:14:23+08:00">
-                2017-07-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tool/" itemprop="url" rel="index">
-                    <span itemprop="name">Tool</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tool/Audio/" itemprop="url" rel="index">
-                    <span itemprop="name">Audio</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/07/09/tool-audio/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/09/tool-audio/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>原材料：视频文件(signed 16-bit PCM)/音频</p>
-<p>工具：VGGish/ffmpeg</p>
-<p>任务：抽取音频文件的embedding语义向量.</p>
-<p>下载地址：<a href="https://github.com/tensorflow/models/tree/master/research/audioset/vggish" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset/vggish</a></p>
-<h4 id="VGGish基础介绍"><a href="#VGGish基础介绍" class="headerlink" title="VGGish基础介绍"></a>VGGish基础介绍</h4><p>在<a href="https://link.zhihu.com/?target=https%3A//research.google.com/audioset/download.html" target="_blank" rel="external">AudioSet</a>是Google发行的声音版ImageNet上训练得到预训练模型，该模型可以将音频文件抽取为128维度的语义向量，除了直接抽取特征外，还可以进行针对特定的任务进行FineTuning操作。</p>
-<h5 id="VGGish-vs-VGG"><a href="#VGGish-vs-VGG" class="headerlink" title="VGGish vs VGG"></a>VGGish vs VGG</h5><p>VGGish是 <a href="https://arxiv.org/abs/1409.1556" target="_blank" rel="external">VGG</a>的变体，含有11个权重层，具体有如下改变：</p>
-<ul>
-<li>输入大小修改为96x64，log mel spectrogram的音频输入</li>
-<li>去掉了最后一组的conv和pool层，有4组结构而不是5组e.</li>
-<li>全联接层(compact embedding层)不是想image那样使用1000而是使用的是128维度的.</li>
-</ul>
-<h5 id="VGGish依赖包"><a href="#VGGish依赖包" class="headerlink" title="VGGish依赖包"></a>VGGish依赖包</h5><ul>
-<li><a href="http://www.numpy.org/" target="_blank" rel="external"><code>numpy</code></a></li>
-<li><a href="http://www.scipy.org/" target="_blank" rel="external"><code>scipy</code></a></li>
-<li><a href="http://resampy.readthedocs.io/en/latest/" target="_blank" rel="external"><code>resampy</code></a></li>
-<li><a href="http://www.tensorflow.org/" target="_blank" rel="external"><code>tensorflow</code></a></li>
-<li><a href="https://pythonhosted.org/six/" target="_blank" rel="external"><code>six</code></a></li>
-<li><a href="https://pysoundfile.readthedocs.io/" target="_blank" rel="external"><code>pysoundfile</code></a></li>
-</ul>
-<h5 id="VGGish文件结构："><a href="#VGGish文件结构：" class="headerlink" title="VGGish文件结构："></a>VGGish文件结构：</h5><ul>
-<li><code>vggish_slim.py</code>: Model definition in TensorFlow Slim notation.</li>
-<li><code>vggish_params.py</code>: Hyperparameters.</li>
-<li><code>vggish_input.py</code>: Converter from audio waveform into input examples.</li>
-<li><code>mel_features.py</code>: Audio feature extraction helpers.</li>
-<li><code>vggish_postprocess.py</code>: Embedding postprocessing.</li>
-<li><code>vggish_inference_demo.py</code>: Demo of VGGish in inference mode.</li>
-<li><code>vggish_train_demo.py</code>: Demo of VGGish in training mode.</li>
-<li><code>vggish_smoke_test.py</code>: Simple test of a VGGish installation</li>
-</ul>
-<h4 id="VGGish使用介绍"><a href="#VGGish使用介绍" class="headerlink" title="VGGish使用介绍"></a>VGGish使用介绍</h4><p>音频文件：signed 16-bit PCM samples</p>
-<p>使用示例: vggish_inference_demo.py</p>
-<ul>
-<li><p>计算log mel spectrogram()<br>examples_batch = vggish_input.wavfile_to_examples(wav_file)</p>
-</li>
-<li><p>vggish抽取 </p>
-<p>features_tensor = sess.graph.get_tensor_by_name(vggish_params.INPUT_TENSOR_NAME)<br>embedding_tensor = sess.graph.get_tensor_by_name(vggish_params.OUTPUT_TENSOR_NAME)[embedding_batch] = sess.run([embedding_tensor], feed_dict={features_tensor: examples_batch})</p>
-</li>
-<li><p>后处理</p>
-<p>PCA变换+8bit定点化</p>
-</li>
-</ul>
-<p>VGGish was trained with audio features computed as follows:</p>
-<ul>
-<li>All audio is resampled to 16 kHz mono.</li>
-<li>A spectrogram is computed using magnitudes of the Short-Time Fourier Transform with a window size of 25 ms, a window hop of 10 ms, and a periodic Hann window.</li>
-<li>A mel spectrogram is computed by mapping the spectrogram to 64 mel bins covering the range 125-7500 Hz.</li>
-<li>A stabilized log mel spectrogram is computed by applying log(mel-spectrum + 0.01) where the offset is used to avoid taking a logarithm of zero.</li>
-<li>These features are then framed into non-overlapping examples of 0.96 seconds, where each example covers 64 mel bands and 96 frames of 10 ms each.</li>
-</ul>
-<h4 id="视频抽取音频"><a href="#视频抽取音频" class="headerlink" title="视频抽取音频"></a>视频抽取音频</h4><p>ffmpeg -y -i  xxx.mp4  -ar 16000 -ac  1  xxx.wav</p>
-<p>主要参数含义：</p>
-<p>-y: 覆盖输出的文件</p>
-<p>-ar rate            set audio sampling rate (in Hz)<br>-ac channels        set number of audio channels</p>
 
           
         

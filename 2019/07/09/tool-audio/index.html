@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="GAN," />
+  <meta name="keywords" content="audio," />
 
 
 
@@ -105,22 +105,28 @@
 
 
 
-<meta name="description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
+<meta name="description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
 <meta property="og:type" content="article">
-<meta property="og:title" content="虚拟对抗训练">
-<meta property="og:url" content="http://yoursite.com/2019/07/08/vat/index.html">
+<meta property="og:title" content="音频特征抽取">
+<meta property="og:url" content="http://yoursite.com/2019/07/09/tool-audio/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
-<meta property="og:updated_time" content="2019-07-08T12:50:50.924Z">
+<meta property="og:description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
+<meta property="og:updated_time" content="2019-07-09T08:37:06.076Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="虚拟对抗训练">
-<meta name="twitter:description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
+<meta name="twitter:title" content="音频特征抽取">
+<meta name="twitter:description" content="背景原材料：视频文件(signed 16-bit PCM)/音频
+工具：VGGish/ffmpeg
+任务：抽取音频文件的embedding语义向量.
+下载地址：https://github.com/tensorflow/models/tree/master/research/audioset/vggish
+VGGish基础介绍在AudioSet是Google发行的声音版ImageNet上训练得到预">
 
 
 
@@ -148,13 +154,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/08/vat/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/09/tool-audio/"/>
 
 
 
 
 
-  <title> 虚拟对抗训练 | 数据娃嚼AI </title>
+  <title> 音频特征抽取 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +309,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/vat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/tool-audio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -324,7 +330,7 @@
             
             
               
-                虚拟对抗训练
+                音频特征抽取
               
             
           </h1>
@@ -339,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T20:37:48+08:00">
-                2019-07-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T16:14:23+08:00">
+                2019-07-09
               </time>
             
 
@@ -362,8 +368,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GAN/" itemprop="url" rel="index">
-                    <span itemprop="name">GAN</span>
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
                   </a>
                 </span>
 
@@ -373,8 +379,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GAN/虚拟对抗训练/" itemprop="url" rel="index">
-                    <span itemprop="name">虚拟对抗训练</span>
+                  <a href="/categories/Tool/Audio/" itemprop="url" rel="index">
+                    <span itemprop="name">Audio</span>
                   </a>
                 </span>
 
@@ -391,8 +397,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/08/vat/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/08/vat/" itemprop="commentCount"></span>
+                <a href="/2019/07/09/tool-audio/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/09/tool-audio/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -418,19 +424,64 @@
       
 
       
-        <p>虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。</p>
-<p>1.Word Embedding Perturbation for Sentence Classification</p>
-<p>在答案选择、关系分类、情感分类上，在word embedding上面实现对抗</p>
-<p>code:<a href="https://github.com/zhangdongxu/word-embedding-perturbation" target="_blank" rel="external">https://github.com/zhangdongxu/word-embedding-perturbation</a></p>
-<p>2.<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1808.03908" target="_blank" rel="external">Adversarial Personalized Ranking for Recommendation</a></p>
-<p>VAT是在对抗训练的基础上将监督学习模型扩展到半监督学习模型，同时模型在同向噪声鲁棒性提高到可以在异向噪声具有鲁棒性，在监督和半监督条件下都取得不错的实验结果。</p>
-<p><strong>3. Virtual Adversarial Training: a Regularization Method for Supervised and Semi-supervised Learning</strong></p>
-<p>利用对抗的思想，要求模型对一个样本在施加对抗性噪声前后给出尽可能相同的预测值，从而对模型施加 smooth regularization，以此利用无标注样本进行半监督学习。论文仅用 100 个标注 MNIST 样本取得 1.36% 的测试误差，仅用 4000 个标注 CIFAR 样本取得 13.15% 的测试误差。</p>
-<p><a href="https://github.com/takerum/vat_tf" target="_blank" rel="external">Code</a></p>
-<p>4.<strong>Adversarial Dropout for Supervised and Semi-supervised Learning</strong></p>
-<p>Virtual Adverarial Training的变种，原来在 input data 上加对抗干扰，本文在网络中间层进行对抗性 dropout，取得了与 VAT 接近的半监督训练效果，配合原始 VAT 一起在 CIFAR 和 SVHN 上取得 state-of-the-art 的半监督学习性能</p>
-<p>5.Distributional Smoothing with Virtual Adversarial Training</p>
-<p>局部分布性平滑(LDS) 的方法，这是统计模型的一个新的光滑概念，可以用作正则化术语来促进模型分布的平滑</p>
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>原材料：视频文件(signed 16-bit PCM)/音频</p>
+<p>工具：VGGish/ffmpeg</p>
+<p>任务：抽取音频文件的embedding语义向量.</p>
+<p>下载地址：<a href="https://github.com/tensorflow/models/tree/master/research/audioset/vggish" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset/vggish</a></p>
+<h4 id="VGGish基础介绍"><a href="#VGGish基础介绍" class="headerlink" title="VGGish基础介绍"></a>VGGish基础介绍</h4><p>在<a href="https://link.zhihu.com/?target=https%3A//research.google.com/audioset/download.html" target="_blank" rel="external">AudioSet</a>是Google发行的声音版ImageNet上训练得到预训练模型，该模型可以将音频文件抽取为128维度的语义向量，除了直接抽取特征外，还可以进行针对特定的任务进行FineTuning操作。</p>
+<h5 id="VGGish-vs-VGG"><a href="#VGGish-vs-VGG" class="headerlink" title="VGGish vs VGG"></a>VGGish vs VGG</h5><p>VGGish是 <a href="https://arxiv.org/abs/1409.1556" target="_blank" rel="external">VGG</a>的变体，含有11个权重层，具体有如下改变：</p>
+<ul>
+<li>输入大小修改为96x64，log mel spectrogram的音频输入</li>
+<li>去掉了最后一组的conv和pool层，有4组结构而不是5组e.</li>
+<li>全联接层(compact embedding层)不是想image那样使用1000而是使用的是128维度的.</li>
+</ul>
+<h5 id="VGGish依赖包"><a href="#VGGish依赖包" class="headerlink" title="VGGish依赖包"></a>VGGish依赖包</h5><ul>
+<li><a href="http://www.numpy.org/" target="_blank" rel="external"><code>numpy</code></a></li>
+<li><a href="http://www.scipy.org/" target="_blank" rel="external"><code>scipy</code></a></li>
+<li><a href="http://resampy.readthedocs.io/en/latest/" target="_blank" rel="external"><code>resampy</code></a></li>
+<li><a href="http://www.tensorflow.org/" target="_blank" rel="external"><code>tensorflow</code></a></li>
+<li><a href="https://pythonhosted.org/six/" target="_blank" rel="external"><code>six</code></a></li>
+<li><a href="https://pysoundfile.readthedocs.io/" target="_blank" rel="external"><code>pysoundfile</code></a></li>
+</ul>
+<h5 id="VGGish文件结构："><a href="#VGGish文件结构：" class="headerlink" title="VGGish文件结构："></a>VGGish文件结构：</h5><ul>
+<li><code>vggish_slim.py</code>: Model definition in TensorFlow Slim notation.</li>
+<li><code>vggish_params.py</code>: Hyperparameters.</li>
+<li><code>vggish_input.py</code>: Converter from audio waveform into input examples.</li>
+<li><code>mel_features.py</code>: Audio feature extraction helpers.</li>
+<li><code>vggish_postprocess.py</code>: Embedding postprocessing.</li>
+<li><code>vggish_inference_demo.py</code>: Demo of VGGish in inference mode.</li>
+<li><code>vggish_train_demo.py</code>: Demo of VGGish in training mode.</li>
+<li><code>vggish_smoke_test.py</code>: Simple test of a VGGish installation</li>
+</ul>
+<h4 id="VGGish使用介绍"><a href="#VGGish使用介绍" class="headerlink" title="VGGish使用介绍"></a>VGGish使用介绍</h4><p>音频文件：signed 16-bit PCM samples</p>
+<p>使用示例: vggish_inference_demo.py</p>
+<ul>
+<li><p>计算log mel spectrogram()<br>examples_batch = vggish_input.wavfile_to_examples(wav_file)</p>
+</li>
+<li><p>vggish抽取 </p>
+<p>features_tensor = sess.graph.get_tensor_by_name(vggish_params.INPUT_TENSOR_NAME)<br>embedding_tensor = sess.graph.get_tensor_by_name(vggish_params.OUTPUT_TENSOR_NAME)[embedding_batch] = sess.run([embedding_tensor], feed_dict={features_tensor: examples_batch})</p>
+</li>
+<li><p>后处理</p>
+<p>PCA变换+8bit定点化</p>
+</li>
+</ul>
+<p>VGGish was trained with audio features computed as follows:</p>
+<ul>
+<li>All audio is resampled to 16 kHz mono.</li>
+<li>A spectrogram is computed using magnitudes of the Short-Time Fourier Transform with a window size of 25 ms, a window hop of 10 ms, and a periodic Hann window.</li>
+<li>A mel spectrogram is computed by mapping the spectrogram to 64 mel bins covering the range 125-7500 Hz.</li>
+<li>A stabilized log mel spectrogram is computed by applying log(mel-spectrum + 0.01) where the offset is used to avoid taking a logarithm of zero.</li>
+<li>These features are then framed into non-overlapping examples of 0.96 seconds, where each example covers 64 mel bands and 96 frames of 10 ms each.</li>
+</ul>
+<h4 id="视频抽取音频"><a href="#视频抽取音频" class="headerlink" title="视频抽取音频"></a>视频抽取音频</h4><p>ffmpeg -y -i  xxx.mp4  -ar 16000 -ac  1  xxx.wav</p>
+<p>主要参数含义：</p>
+<p>-y: 覆盖输出的文件</p>
+<p>-ar rate            set audio sampling rate (in Hz)<br>-ac channels        set number of audio channels</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li>Gemmeke, J. et. al., <a href="https://research.google.com/pubs/pub45857.html" target="_blank" rel="external">AudioSet: An ontology and human-labelled dataset for audio events</a>, ICASSP 2017</li>
+<li>Hershey, S. et. al., <a href="https://research.google.com/pubs/pub45611.html" target="_blank" rel="external">CNN Architectures for Large-Scale Audio Classification</a>, ICASSP 2017</li>
+<li><a href="https://github.com/tensorflow/models/tree/master/research/audioset" target="_blank" rel="external">https://github.com/tensorflow/models/tree/master/research/audioset</a></li>
+</ul>
 
       
     </div>
@@ -454,7 +505,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/GAN/" rel="tag"># GAN</a>
+            <a href="/tags/audio/" rel="tag"># audio</a>
           
         </div>
       
@@ -467,8 +518,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/02/RecSys-Advance-BERT/" rel="next" title="推荐系统前沿系列-BERT方法">
-                <i class="fa fa-chevron-left"></i> 推荐系统前沿系列-BERT方法
+              <a href="/2019/07/08/vat/" rel="next" title="虚拟对抗训练">
+                <i class="fa fa-chevron-left"></i> 虚拟对抗训练
               </a>
             
           </div>
@@ -476,10 +527,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/09/tool-audio/" rel="prev" title="音频特征抽取">
-                音频特征抽取 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -494,10 +541,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2019/07/08/vat/"
-     data-title="虚拟对抗训练"
+        <div class="ds-share flat" data-thread-key="2019/07/09/tool-audio/"
+     data-title="音频特征抽取"
      data-content=""
-     data-url="http://yoursite.com/2019/07/08/vat/">
+     data-url="http://yoursite.com/2019/07/09/tool-audio/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -524,8 +571,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/07/08/vat/"
-           data-title="虚拟对抗训练" data-url="http://yoursite.com/2019/07/08/vat/">
+      <div class="ds-thread" data-thread-key="2019/07/09/tool-audio/"
+           data-title="音频特征抽取" data-url="http://yoursite.com/2019/07/09/tool-audio/">
       </div>
     
   </div>
@@ -549,8 +596,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/towan.jpg"
@@ -632,6 +688,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGish基础介绍"><span class="nav-number">2.</span> <span class="nav-text">VGGish基础介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish-vs-VGG"><span class="nav-number">2.1.</span> <span class="nav-text">VGGish vs VGG</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish依赖包"><span class="nav-number">2.2.</span> <span class="nav-text">VGGish依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#VGGish文件结构："><span class="nav-number">2.3.</span> <span class="nav-text">VGGish文件结构：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VGGish使用介绍"><span class="nav-number">3.</span> <span class="nav-text">VGGish使用介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视频抽取音频"><span class="nav-number">4.</span> <span class="nav-text">视频抽取音频</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
