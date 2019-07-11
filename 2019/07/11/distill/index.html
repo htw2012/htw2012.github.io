@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="FFM,DeepFFM," />
+  <meta name="keywords" content="BERT,Distillation," />
 
 
 
@@ -105,38 +105,26 @@
 
 
 
-<meta name="description" content="Background
-推荐和广告的核心技术是CTR预估技术；
-CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法;
-Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；
-SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；
+<meta name="description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
 
-Problem如何">
+Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FAT-DeepFFM">
-<meta property="og:url" content="http://yoursite.com/2019/06/18/fat-deepffm/index.html">
+<meta property="og:title" content="知识蒸馏(Knowledge Distillation)">
+<meta property="og:url" content="http://yoursite.com/2019/07/11/distill/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="Background
-推荐和广告的核心技术是CTR预估技术；
-CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法;
-Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；
-SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；
+<meta property="og:description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
 
-Problem如何">
-<meta property="og:image" content="http://yoursite.com/images/image-20190523115537069.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20190523115931135.png">
-<meta property="og:image" content="http://yoursite.com/images/image-20190523115701211.png">
-<meta property="og:updated_time" content="2019-06-18T23:53:22.386Z">
+Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
+<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710154101256.png">
+<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710163227607.png">
+<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710172005310.png">
+<meta property="og:updated_time" content="2019-07-11T02:27:24.367Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FAT-DeepFFM">
-<meta name="twitter:description" content="Background
-推荐和广告的核心技术是CTR预估技术；
-CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法;
-Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；
-SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；
+<meta name="twitter:title" content="知识蒸馏(Knowledge Distillation)">
+<meta name="twitter:description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
 
-Problem如何">
-<meta name="twitter:image" content="http://yoursite.com/images/image-20190523115537069.png">
+Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
+<meta name="twitter:image" content="http://yoursite.com/source/images/distill/image-20190710154101256.png">
 
 
 
@@ -164,13 +152,13 @@ Problem如何">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/18/fat-deepffm/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/11/distill/"/>
 
 
 
 
 
-  <title> FAT-DeepFFM | 数据娃嚼AI </title>
+  <title> 知识蒸馏(Knowledge Distillation) | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -319,7 +307,7 @@ Problem如何">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/18/fat-deepffm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/11/distill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -340,7 +328,7 @@ Problem如何">
             
             
               
-                FAT-DeepFFM
+                知识蒸馏(Knowledge Distillation)
               
             
           </h1>
@@ -355,8 +343,8 @@ Problem如何">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-18T23:22:04+08:00">
-                2019-06-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-11T10:21:23+08:00">
+                2019-07-11
               </time>
             
 
@@ -378,8 +366,19 @@ Problem如何">
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
-                    <span itemprop="name">推荐系统</span>
+                  <a href="/categories/模型压缩/" itemprop="url" rel="index">
+                    <span itemprop="name">模型压缩</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/模型压缩/Distillation/" itemprop="url" rel="index">
+                    <span itemprop="name">Distillation</span>
                   </a>
                 </span>
 
@@ -396,8 +395,8 @@ Problem如何">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/06/18/fat-deepffm/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/18/fat-deepffm/" itemprop="commentCount"></span>
+                <a href="/2019/07/11/distill/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/11/distill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -423,16 +422,63 @@ Problem如何">
       
 
       
-        <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><ul>
-<li>推荐和广告的核心技术是CTR预估技术；</li>
-<li>CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法;</li>
-<li>Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；</li>
-<li>SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；</li>
+        <h2 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。</p>
+<ul>
+<li><strong>Knowledge Distill是一种简单弥补分类问题监督信号不足的办法</strong>. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有<strong>不同类之间关系</strong>的信息（比如同时分类驴和马的时候，尽管某张图片是马，但是soft target就不会像hard target 那样只有马的index处的值为1，其余为0，而是在驴的部分也会有概率。）</li>
+<li>知识蒸馏是一种模型压缩常见方法，用于模型压缩指的是在teacher-student框架中，将复杂、学习能力强的网络学到的特征表示“知识”蒸馏出来，传递给参数量小、学习能力弱的网络。</li>
 </ul>
-<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>如何在CTR领域，利用FFM+Attention的共同联合构建较强的DeepCTR预估模型</p>
-<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><h4 id="模型的整体结构"><a href="#模型的整体结构" class="headerlink" title="模型的整体结构"></a>模型的整体结构</h4><p><img src="images/image-20190523115537069.png" alt="image-20190523115537069"></p>
-<h4 id="核心部件CENet"><a href="#核心部件CENet" class="headerlink" title="核心部件CENet"></a>核心部件CENet</h4><p><img src="images/image-20190523115931135.png" alt="image-20190523115931135"></p>
-<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><p><img src="images/image-20190523115701211.png" alt="image-20190523115701211"></p>
+<h3 id="Loss表达"><a href="#Loss表达" class="headerlink" title="Loss表达"></a>Loss表达</h3><p>Loss的表达：$L=\alpha L<em>{soft}+(1−\alpha)L</em>{hard}$<br>distillation loss选择：平方距离，KL-divergence，cross entropy。</p>
+<h3 id="核心结构："><a href="#核心结构：" class="headerlink" title="核心结构："></a>核心结构：</h3><p><img src="source/images/distill/image-20190710154101256.png" alt="image-20190710154101256"></p>
+<h2 id="相关文章调研"><a href="#相关文章调研" class="headerlink" title="相关文章调研"></a>相关文章调研</h2><p>0.开山作：Hinton发表在NIPS2014文章</p>
+<p>1.Attention Transfer：传递teacher网络的attention信息给student网络</p>
+<p>attention transfer的目的是将teacher网络某层的这种spatial attention map传递给student网络，让student网络相应层的spatial attention map可以模仿teacher，从而达到知识蒸馏目的。</p>
+<p>2.<strong>FSP matrix</strong></p>
+<p>之前KD的teacher的某层的输出作为student的mimic目标，这篇文章将teacher网络层与层之间的关系作为student网络mimic的目标。</p>
+<p>3.<strong>DarkRank: Accelerating Deep Metric Learning via Cross Sample Similarities</strong></p>
+<p>一种适合度量学习（如检索，Re-id，人脸识别，图像聚类）的知识蒸馏方法。所传递的知识就是度量学习所度量的样本间相似度，用learn to rank来传递知识。</p>
+<p>4.<strong>Neuron Selectivity Transfer</strong><br>文章:Like What You Like: Knowledge Distill via Neuron Selectivity Transfer</p>
+<p>teacher-student的knowledge transfer过程看作两者对应feature distribution matching，使用domian adaptation 常用方法<strong>MMD(最大平均差异)</strong>进行优化。<strong>(知识蒸馏本是一种同任务迁移学习)</strong></p>
+<p><strong>使用MMD来使得student网络的神经元选择性特征分布（Neuron Selectivity Feature Distributions）mimic对应teacher的的这种分布</strong>。</p>
+<p>5.<strong>Knowledge Distillation with Conditional Adversarial Networks</strong></p>
+<p>Paper:Training Shallow and Thin Networks for Acceleration via Knowledge Distillation with Conditional Adversarial Networks</p>
+<p>6.<strong>Deep Mutual Learning</strong></p>
+<p>Deep Mutual Learning(DML)与用于模型压缩的一般知识蒸馏不同的地方在于知识蒸馏是将预训练好的、不进行反向传播的“静态”teacher网络的知识单项传递给需要反向传播的”动态”student网络.</p>
+<p>DML:Teacher 网络也要进行反向传播</p>
+<p>7.<strong>Born Again Neural Networks</strong> 再生网络</p>
+<p>核心思路：直接将teacher网络的prediction当作student网络的target，得到第一代student网络的prediction，然后传递给后一代，历经几代之后，将各代student网络的prediction ensemble.形成一个sequence of teaching selves。</p>
+<p>8.在线蒸馏 codistillation</p>
+<p>在分布式训练任务下，提出了一种替代标准SGD训练NN模型的方法codistillation，是一种非同步的算法，事实上有很多个Wieght的副本在独立训练，他可以有效“解决”机器增加但线性度不增加的问题，实验中还有一些数据表面可以比标准的SGD收敛更快</p>
+<p>distill的思想，但是因为是重头训练，所以什么是teacher model呢？作者提出用所有模型的预测平均作为teacher model，然后作为soft target来训练每一个模型。</p>
+<p>10.<a href="https://arxiv.org/abs/1904.09482" target="_blank" rel="external">Improving Multi-Task Deep Neural Networks via Knowledge Distillation for Natural Language Understanding</a> 微软的文章</p>
+<p><img src="source/images/distill/image-20190710163227607.png" alt="image-20190710163227607"></p>
+<p>Teacher是多个，每个是一个MT-DNN，Student是一个小的MT-DNN，朴素的KD做法，效果比Teacher还好</p>
+<p>Code:<a href="https://github.com/namisan/mt-dnn" target="_blank" rel="external">https://github.com/namisan/mt-dnn</a></p>
+<p>发现有益的结论：Hinton的知识蒸馏的第一项权重相当大，这里发现大小差异不大。</p>
+<p>问：Student的网络结构和单个Teacher是一样的？</p>
+<p>11.Model Compression with Multi-Task Knowledge Distillation for Web-scale Question Answering System</p>
+<p>Multi-task Knowledge Distillation Model </p>
+<p>Student：3层BERT结构，使用BERT的参数进行初始化；Teacher: BERT-Base，个数是3个</p>
+<p>在讨论部分提出了一个Enhanced Student Model with Two-Stage Multi-Task Knowledge Distillation，结构如下：</p>
+<p><img src="source/images/distill/image-20190710172005310.png" alt="image-20190710172005310"></p>
+<p>两阶段的范式：第一阶段使用soft label进行学习，第二阶段使用GT和soft label进行学习，效果比MKDM好，但比原始的都要差。</p>
+<h2 id="实现问题思考"><a href="#实现问题思考" class="headerlink" title="实现问题思考"></a>实现问题思考</h2><p>1.student网络的具体形态的选择？很多方式，可以异质也可以同质的</p>
+<p>2.teacher网络的结构，选择几个分类器，因为数据集上不同个数的分类器性能不一样</p>
+<p>3.teacher预测错误的知识需要单独剔除吗？</p>
+<p>4.当类别少的时候效果就不太显著，对于非分类问题也不适用？</p>
+<p>常见的T-S形态</p>
+<p>Case1:</p>
+<p><strong>teacher</strong>：WRN-40-10</p>
+<p><strong>student</strong>: WRN-10-4(CIFAR)/WRN-22-4(Imagenet32)</p>
+<p>Case2:</p>
+<p>Teacher:BERT-Base</p>
+<p>Student:3层BERT / BiLSTMAttn+TextCNN</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/51563760" target="_blank" rel="external">简评 | 知识蒸馏（Knowledge Distillation）最新进展（一）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/53864403" target="_blank" rel="external">简评 | 知识蒸馏（Knowledge Distillation）最新进展（二）</a></li>
+<li><a href="https://www.zhihu.com/question/50519680/answer/136406661" target="_blank" rel="external">如何理解soft target这一做法？</a></li>
+<li>soft target的作用在于<strong>generalization</strong>。同dropout、L2 regularization、pre-train有相同作用。</li>
+<li><a href="https://blog.csdn.net/nature553863/article/details/80568658" target="_blank" rel="external">知识蒸馏（Knowledge Distillation</a></li>
+</ul>
 
       
     </div>
@@ -456,9 +502,9 @@ Problem如何">
       
         <div class="post-tags">
           
-            <a href="/tags/FFM/" rel="tag"># FFM</a>
+            <a href="/tags/BERT/" rel="tag"># BERT</a>
           
-            <a href="/tags/DeepFFM/" rel="tag"># DeepFFM</a>
+            <a href="/tags/Distillation/" rel="tag"># Distillation</a>
           
         </div>
       
@@ -471,8 +517,8 @@ Problem如何">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/05/drl-conference/" rel="next" title="随笔记-深度强化学习:理论与应用学术研讨会">
-                <i class="fa fa-chevron-left"></i> 随笔记-深度强化学习:理论与应用学术研讨会
+              <a href="/2019/07/09/tool-audio/" rel="next" title="音频特征抽取">
+                <i class="fa fa-chevron-left"></i> 音频特征抽取
               </a>
             
           </div>
@@ -480,10 +526,6 @@ Problem如何">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/19/fibinet/" rel="prev" title="FiBiNET">
-                FiBiNET <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -498,10 +540,10 @@ Problem如何">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2019/06/18/fat-deepffm/"
-     data-title="FAT-DeepFFM"
+        <div class="ds-share flat" data-thread-key="2019/07/11/distill/"
+     data-title="知识蒸馏(Knowledge Distillation)"
      data-content=""
-     data-url="http://yoursite.com/2019/06/18/fat-deepffm/">
+     data-url="http://yoursite.com/2019/07/11/distill/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -528,8 +570,8 @@ Problem如何">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/06/18/fat-deepffm/"
-           data-title="FAT-DeepFFM" data-url="http://yoursite.com/2019/06/18/fat-deepffm/">
+      <div class="ds-thread" data-thread-key="2019/07/11/distill/"
+           data-title="知识蒸馏(Knowledge Distillation)" data-url="http://yoursite.com/2019/07/11/distill/">
       </div>
     
   </div>
@@ -655,7 +697,7 @@ Problem如何">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Background"><span class="nav-number">1.</span> <span class="nav-text">Background</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Problem"><span class="nav-number">2.</span> <span class="nav-text">Problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">3.</span> <span class="nav-text">Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模型的整体结构"><span class="nav-number">3.1.</span> <span class="nav-text">模型的整体结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核心部件CENet"><span class="nav-number">3.2.</span> <span class="nav-text">核心部件CENet</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiments"><span class="nav-number">4.</span> <span class="nav-text">Experiments</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础介绍"><span class="nav-number">1.</span> <span class="nav-text">基础介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心思想"><span class="nav-number">1.1.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loss表达"><span class="nav-number">1.2.</span> <span class="nav-text">Loss表达</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心结构："><span class="nav-number">1.3.</span> <span class="nav-text">核心结构：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关文章调研"><span class="nav-number">2.</span> <span class="nav-text">相关文章调研</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现问题思考"><span class="nav-number">3.</span> <span class="nav-text">实现问题思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
