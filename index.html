@@ -1097,7 +1097,7 @@
               
                 
                 <a class="post-title-link" href="/2019/07/01/RecSys-Advance-GAN/" itemprop="url">
-                  推荐系统前沿系列-生成对抗网络
+                  推荐系统前沿系列-生成对抗网络概览
                 </a>
               
             
@@ -1976,7 +1976,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/drl-conference/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/note-esim/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -1998,8 +1998,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/08/05/drl-conference/" itemprop="url">
-                  随笔记-深度强化学习:理论与应用学术研讨会
+                <a class="post-title-link" href="/2019/05/20/note-esim/" itemprop="url">
+                  论文解读-多轮会话ESIM
                 </a>
               
             
@@ -2015,8 +2015,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-05T11:20:16+08:00">
-                2018-08-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T17:37:19+08:00">
+                2019-05-20
               </time>
             
 
@@ -2038,8 +2038,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度强化学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度强化学习</span>
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
                   </a>
                 </span>
 
@@ -2056,8 +2056,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/05/drl-conference/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/08/05/drl-conference/" itemprop="commentCount"></span>
+                <a href="/2019/05/20/note-esim/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/20/note-esim/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -2085,179 +2085,27 @@
       
         
           
-            <p>会议时间：2018.08.04</p>
-<h3 id="Robust-and-Efficient-Reinforcement-Learning"><a href="#Robust-and-Efficient-Reinforcement-Learning" class="headerlink" title="Robust and Efficient Reinforcement Learning"></a>Robust and Efficient Reinforcement Learning</h3><p>报告人：秦涛</p>
-<h4 id="基础回顾"><a href="#基础回顾" class="headerlink" title="基础回顾"></a>基础回顾</h4><ul>
-<li><p>MDP 五元组(s_t,a_t,p_t,r,discout_factor)<br>S/A不可数<br>举例说明：立竿子/atairi/的五元组？state/action/reawrd</p>
-</li>
-<li><p>model P(s_t|s,a), r_t(s,a)<br>不同于SL部分</p>
-</li>
-<li><p>policy </p>
-<ul>
-<li>确定 a=pi(s). bad in POMDP/对抗场景</li>
-<li>随机 pi(a|s)=P[a|s]. if on-policy, get exploration.</li>
-</ul>
-</li>
-<li><p>Value </p>
-<ul>
-<li>V(s),Bellman 等式</li>
-<li>Q<em>pi(s,a)=E(r</em>(t+1)+gama*r_t+2+…+|s,a)</li>
-</ul>
-</li>
-<li><p>learning<br>state/reward在开放环境未知，sampling</p>
-</li>
-<li><p>planning  </p>
-</li>
-<li><p>系统已知，线性方程组，求不动点， 收敛条件小于eps</p>
-</li>
-<li><p>最优控制，Bellman最优方程，作用到s,a的Q，推导出pi.</p>
-</li>
-<li><p>RL 分类</p>
-<ul>
-<li>MDP-(bellman or bellman opt,关心模型)<ul>
-<li>value </li>
-<li>policy based</li>
-<li>AC/DDPG/PPO</li>
-</ul>
-</li>
-<li><p>Block-box optimization（不关心模型）</p>
-<ul>
-<li>进化算法</li>
-</ul>
-</li>
-<li><p>Q-learning</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>  <img src="images/drl_conference/q-learning.png" alt="Alt text"></p>
-<ul>
-<li><p>Policy Gradient</p>
-</li>
-<li><p>融合AC，actor is policy, critic is value</p>
-</li>
-</ul>
-<h4 id="算法稳定性"><a href="#算法稳定性" class="headerlink" title="算法稳定性"></a>算法稳定性</h4><h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><ul>
-<li>不同种子</li>
-<li>不同任务的表现 TRPO/DDPG，not like resnet</li>
-</ul>
-<h5 id="思想驱动"><a href="#思想驱动" class="headerlink" title="思想驱动"></a>思想驱动</h5><ul>
-<li>比如集成的思想，bagging?</li>
-<li>怎么挑选算法？ random or UCB(看历史的算法)</li>
-<li>Policy update:gradient更新和累加， norm</li>
-</ul>
-<h4 id="样本有效性"><a href="#样本有效性" class="headerlink" title="样本有效性"></a>样本有效性</h4><ul>
-<li>什么是有效？需要大量？百万和千万</li>
-<li><p>toward evolution stratagy </p>
-<ul>
-<li>sample</li>
-<li>evaluation</li>
-<li>perform<br>鲁棒、效率低，依赖sample?</li>
-</ul>
-</li>
-<li><p>importance sampling, reuse historical data,数值稳定性。</p>
-<ul>
-<li>Value function</li>
-<li>Advantage function:新旧的差异</li>
-<li>一些问题及解决</li>
-<li>求期望：鸡生蛋，蛋生鸡。  </li>
-<li>Approximation,求期望分解，旧的期望分解</li>
-<li>新的使用新的参数，相对差一个bound的确定, lower bound</li>
-<li>trust region evolution, 太近做近似，太远不能这样做。</li>
-</ul>
-</li>
-</ul>
-<h3 id="强化学习理论概述"><a href="#强化学习理论概述" class="headerlink" title="强化学习理论概述"></a>强化学习理论概述</h3><p>报告人：郭宪</p>
-<ul>
-<li>RL,来自于行为心理学，解决一种智能决策问题，来自于深度思考</li>
-<li>DL，解决感知的问题，比如图像类别，深度表示的问题</li>
-</ul>
-<h3 id="神经导航、RNN与强化学习"><a href="#神经导航、RNN与强化学习" class="headerlink" title="神经导航、RNN与强化学习"></a>神经导航、RNN与强化学习</h3><p>报告人：许铁</p>
-<ul>
-<li>RL vs SL<br>老虎来了，SL就是老虎，RL决定跑还是战斗</li>
-<li>强化学习分类<ul>
-<li>DP：value/q function</li>
-<li>Policy: </li>
-</ul>
-</li>
-<li>星际争霸- 局部信息解决不了？alpha-go<ul>
-<li>PG </li>
-<li>引入记忆的方法？局部的都记到</li>
-<li>RNN引入记忆，多了cell，就是lstm</li>
-</ul>
-</li>
-<li>Meta RL:学习如何学习</li>
-</ul>
-<h3 id="基于生成对抗网络和隐层属性交换的人脸属性迁移"><a href="#基于生成对抗网络和隐层属性交换的人脸属性迁移" class="headerlink" title="基于生成对抗网络和隐层属性交换的人脸属性迁移"></a>基于生成对抗网络和隐层属性交换的人脸属性迁移</h3><p>报告人：洪佳鹏</p>
-<p>Paper:<a href="https://arxiv.org/abs/1711.05415" target="_blank" rel="external">DNA-GAN: Learning Disentangled Representations from Multi-Attribute Images</a></p>
-<ul>
-<li>图像（人脸属性）-图像（人脸的ID）</li>
-<li>对抗的设计在于判别器的设计<ul>
-<li>判断是否落在某个域，比如CycleGan，不必要样本的标签，但要域标签。比如知道一个人的带眼镜，不必要需要不带眼镜的情况。但是需要其它域的带眼镜</li>
-<li>UNIT</li>
-<li>DTN</li>
-<li>StarGAN,CycleGan的拓展，针对多个域，ACGAN图像域的信息预测出来</li>
-<li>Pix2Pix,需要</li>
-<li>判别器在隐层特征面对抗，FadeNet</li>
-</ul>
-</li>
-<li>DNA-GAN , ICLR 2018<ul>
-<li>多属性</li>
-<li>多模态</li>
-<li>高分辨率</li>
-</ul>
-</li>
-<li>ELEGANT</li>
-</ul>
-<h3 id="生成式对抗网络与人脸属性编辑"><a href="#生成式对抗网络与人脸属性编辑" class="headerlink" title="生成式对抗网络与人脸属性编辑"></a>生成式对抗网络与人脸属性编辑</h3><p>报告人：张刚</p>
-<ul>
-<li>生成式对抗网络与人脸属性编辑</li>
-<li>GAN做数据增强/增广</li>
-<li>GAN基础的平衡点</li>
-<li>AcGAN:用一个label去控制图片</li>
-<li>IcGAN进行编辑</li>
-<li>CycleGAN/ResGAN/StarGAN</li>
-</ul>
-<h4 id="空间注意力机制-分割-分类中"><a href="#空间注意力机制-分割-分类中" class="headerlink" title="空间注意力机制- 分割/分类中"></a>空间注意力机制- 分割/分类中</h4><h3 id="深度学习的自动驾驶的礼让系统"><a href="#深度学习的自动驾驶的礼让系统" class="headerlink" title="深度学习的自动驾驶的礼让系统"></a>深度学习的自动驾驶的礼让系统</h3><h4 id="技术回顾"><a href="#技术回顾" class="headerlink" title="技术回顾"></a>技术回顾</h4><ul>
-<li>A3C</li>
-<li>DDPG： AC的机制，学习的policy好，采用的reply buffer的形式</li>
-<li>TRPO：采用importance sample </li>
-<li>PPO:分别n各actor,同时进行work,试图每一步小。</li>
-<li>HER：事后诸葛亮，</li>
-<li>DPG 对连续状态与连续动作空间进行探索</li>
-</ul>
-<h4 id="无人驾驶"><a href="#无人驾驶" class="headerlink" title="无人驾驶"></a>无人驾驶</h4><p>感知–决策–控制</p>
-<ul>
-<li>google waymo、阿波龙、</li>
-<li>福特、博世、大众、宝马</li>
-</ul>
-<h4 id="mobile-eye-RSS模型"><a href="#mobile-eye-RSS模型" class="headerlink" title="mobile-eye RSS模型"></a>mobile-eye RSS模型</h4><h4 id="一些方法"><a href="#一些方法" class="headerlink" title="一些方法"></a>一些方法</h4><ul>
-<li>wayve团队，learn to drive a day, paper, 2018.07,单目</li>
-<li>本田研究院，TTC， time to collision</li>
-<li>DDPG+TRPO+A3C</li>
-<li>韩国汉阳大学</li>
-</ul>
-<h3 id="强化学习在机器翻译中的实践与探索"><a href="#强化学习在机器翻译中的实践与探索" class="headerlink" title="强化学习在机器翻译中的实践与探索"></a>强化学习在机器翻译中的实践与探索</h3><p>报告人：吴郦军</p>
-<ul>
-<li><p>NMT的问题</p>
-<ul>
-<li>train vs inference </li>
-<li>word level train vs sentence-level evalution</li>
-</ul>
-</li>
-<li><p>解决方法：</p>
-<p>blue as reward, for sampling</p>
-</li>
-<li><p>Reward function learning</p>
-</li>
-<li><p>D is reward, smoth,dynamic.</p>
-</li>
-<li><p>GAN is RL</p>
-</li>
-</ul>
-<h3 id="强化学习在展示广告实时竞价中的应用"><a href="#强化学习在展示广告实时竞价中的应用" class="headerlink" title="强化学习在展示广告实时竞价中的应用"></a>强化学习在展示广告实时竞价中的应用</h3><p>报告人：靳骏奇</p>
-<p>核心关键词：CPC；广告主的bid；防止它们出现囚徒困境问题；优化目标，纳什均衡</p>
-<p>CEM基于PG方法的一种，选择众多参数的最好几组，off-policy, 并行，Derivate Free,样本利用率低.</p>
+            <p>论文：Sequential Attention-based Network for Noetic End-to-End Response Selection，AAAI19</p>
+<p>来源：阿里巴巴达摩院</p>
+<p>Code:<a href="https://github.com/alibaba/esim-response-selection" target="_blank" rel="external">https://github.com/alibaba/esim-response-selection</a></p>
+<p><strong>ESIM</strong>，全称Enhanced Sequential Inference Model，一种增强序列推断模型</p>
+<h4 id="整体模型结构："><a href="#整体模型结构：" class="headerlink" title="整体模型结构："></a>整体模型结构：</h4><p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722073809600.png" alt="image-20190722073809600"></p>
+<h4 id="输入编码："><a href="#输入编码：" class="headerlink" title="输入编码："></a>输入编码：</h4><p>1.context信息拼接一个长句子，句子之间使用<eou>和<eot>进行分割。</eot></eou></p>
+<p>2.使用预训练的embedding进行初始化，而这里需要注意的是输入部分使用了多个embedding进行拼接比如glove/fasttext.</p>
+<p>3.使用LSTM对输入和context分别进行编码</p>
+<h4 id="局部匹配-Local-Matching"><a href="#局部匹配-Local-Matching" class="headerlink" title="局部匹配-Local Matching"></a>局部匹配-Local Matching</h4><p>思想来源：下一个句子的某个单词或者词组的语义和context有匹配的地方，从而建立起它们的关系</p>
+<p>做法：直接针对输入和context计算它们的匹配矩阵(内积)，然后分别对输入和context进行加权处理得到<strong>对偶矩阵</strong>，进一步，局部匹配的输出是当前向量和对偶向量的四元组进行拼接而成的；</p>
+<p>具体计算逻辑：</p>
+<p>a.计算两两的内积即匹配矩阵</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081045851.png" alt="image-20190722081045851"></p>
+<p>b.利用匹配矩阵计算它的attention后的向量，即对偶向量</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081226714.png" alt="image-20190722081226714"></p>
+<p>c.局部匹配输出四元组形式</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081407703.png" alt="image-20190722081407703"></p>
+<p>d.使用一层全联接层进行压缩</p>
+<h4 id="匹配组合-Matching-Composition"><a href="#匹配组合-Matching-Composition" class="headerlink" title="匹配组合 Matching Composition"></a>匹配组合 Matching Composition</h4><p>做法：使用BiLSTM读取局部匹配向量，学习重要的局部匹配组合，相对整体的关系</p>
+<h4 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h4><p>针对context和input的BiLSTM的2输出进行max/mean操作，然后拼接它们，再送入一个MLP进行得分预测</p>
+<h4 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h4><p>值得注意的是context比较长的处理，比如ubuntu数据，可以先使用sentence encode的方式初选择200个句子，然后再使用ESIM模型进行匹配。具体而言，Sentence-encoding可以通过Siamese的网络结构学习到，主要结构是上图1的a部分。</p>
 
           
         
@@ -2338,7 +2186,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2349,7 +2197,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2360,7 +2208,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
