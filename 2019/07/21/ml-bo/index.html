@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="BERT,Distillation," />
+  <meta name="keywords" content="机器学习基础,贝叶斯优化," />
 
 
 
@@ -105,26 +105,24 @@
 
 
 
-<meta name="description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
-
-Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
+<meta name="description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
 <meta property="og:type" content="article">
-<meta property="og:title" content="知识蒸馏-Knowledge Distillation">
-<meta property="og:url" content="http://yoursite.com/2019/07/11/distill/index.html">
+<meta property="og:title" content="机器学习基础夯实系列-贝叶斯优化">
+<meta property="og:url" content="http://yoursite.com/2019/07/21/ml-bo/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
-
-Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
-<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710154101256.png">
-<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710163227607.png">
-<meta property="og:image" content="http://yoursite.com/source/images/distill/image-20190710172005310.png">
-<meta property="og:updated_time" content="2019-07-15T04:01:00.358Z">
+<meta property="og:description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
+<meta property="og:image" content="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png">
+<meta property="og:updated_time" content="2019-07-28T13:50:37.094Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="知识蒸馏-Knowledge Distillation">
-<meta name="twitter:description" content="基础介绍核心思想KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。
-
-Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有不同类之间关系的">
-<meta name="twitter:image" content="http://yoursite.com/source/images/distill/image-20190710154101256.png">
+<meta name="twitter:title" content="机器学习基础夯实系列-贝叶斯优化">
+<meta name="twitter:description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
+<meta name="twitter:image" content="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png">
 
 
 
@@ -152,13 +150,13 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/11/distill/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/21/ml-bo/"/>
 
 
 
 
 
-  <title> 知识蒸馏-Knowledge Distillation | 数据娃嚼AI </title>
+  <title> 机器学习基础夯实系列-贝叶斯优化 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -307,7 +305,7 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/11/distill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/21/ml-bo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -328,7 +326,7 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
             
             
               
-                知识蒸馏-Knowledge Distillation
+                机器学习基础夯实系列-贝叶斯优化
               
             
           </h1>
@@ -343,8 +341,8 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-11T10:21:23+08:00">
-                2019-07-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-21T21:42:34+08:00">
+                2019-07-21
               </time>
             
 
@@ -366,19 +364,8 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/模型压缩/" itemprop="url" rel="index">
-                    <span itemprop="name">模型压缩</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/模型压缩/Distillation/" itemprop="url" rel="index">
-                    <span itemprop="name">Distillation</span>
+                  <a href="/categories/机器学习基础/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习基础</span>
                   </a>
                 </span>
 
@@ -395,8 +382,8 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/11/distill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/11/distill/" itemprop="commentCount"></span>
+                <a href="/2019/07/21/ml-bo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/21/ml-bo/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -422,63 +409,28 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
       
 
       
-        <h2 id="基础介绍"><a href="#基础介绍" class="headerlink" title="基础介绍"></a>基础介绍</h2><h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p>KD（Distilling the Knowledge），就是用teacher network的输出作为soft label(target)来训练一个student network。</p>
-<ul>
-<li><strong>Knowledge Distill是一种简单弥补分类问题监督信号不足的办法</strong>. 常见的监督信号表示hard target,是0-1的表示，而KD的表示从soft target学习，拥有<strong>不同类之间关系</strong>的信息（比如同时分类驴和马的时候，尽管某张图片是马，但是soft target就不会像hard target 那样只有马的index处的值为1，其余为0，而是在驴的部分也会有概率。）</li>
-<li>知识蒸馏是一种模型压缩常见方法，用于模型压缩指的是在teacher-student框架中，将复杂、学习能力强的网络学到的特征表示“知识”蒸馏出来，传递给参数量小、学习能力弱的网络。</li>
-</ul>
-<h3 id="Loss表达"><a href="#Loss表达" class="headerlink" title="Loss表达"></a>Loss表达</h3><p>Loss的表达：$L=\alpha L<em>{soft}+(1−\alpha)L</em>{hard}$<br>distillation loss选择：平方距离，KL-divergence，cross entropy。</p>
-<h3 id="核心结构："><a href="#核心结构：" class="headerlink" title="核心结构："></a>核心结构：</h3><p><img src="source/images/distill/image-20190710154101256.png" alt="image-20190710154101256"></p>
-<h2 id="相关文章调研"><a href="#相关文章调研" class="headerlink" title="相关文章调研"></a>相关文章调研</h2><p>0.开山作：Hinton发表在NIPS2014文章</p>
-<p>1.Attention Transfer：传递teacher网络的attention信息给student网络</p>
-<p>attention transfer的目的是将teacher网络某层的这种spatial attention map传递给student网络，让student网络相应层的spatial attention map可以模仿teacher，从而达到知识蒸馏目的。</p>
-<p>2.<strong>FSP matrix</strong></p>
-<p>之前KD的teacher的某层的输出作为student的mimic目标，这篇文章将teacher网络层与层之间的关系作为student网络mimic的目标。</p>
-<p>3.<strong>DarkRank: Accelerating Deep Metric Learning via Cross Sample Similarities</strong></p>
-<p>一种适合度量学习（如检索，Re-id，人脸识别，图像聚类）的知识蒸馏方法。所传递的知识就是度量学习所度量的样本间相似度，用learn to rank来传递知识。</p>
-<p>4.<strong>Neuron Selectivity Transfer</strong><br>文章:Like What You Like: Knowledge Distill via Neuron Selectivity Transfer</p>
-<p>teacher-student的knowledge transfer过程看作两者对应feature distribution matching，使用domian adaptation 常用方法<strong>MMD(最大平均差异)</strong>进行优化。<strong>(知识蒸馏本是一种同任务迁移学习)</strong></p>
-<p><strong>使用MMD来使得student网络的神经元选择性特征分布（Neuron Selectivity Feature Distributions）mimic对应teacher的的这种分布</strong>。</p>
-<p>5.<strong>Knowledge Distillation with Conditional Adversarial Networks</strong></p>
-<p>Paper:Training Shallow and Thin Networks for Acceleration via Knowledge Distillation with Conditional Adversarial Networks</p>
-<p>6.<strong>Deep Mutual Learning</strong></p>
-<p>Deep Mutual Learning(DML)与用于模型压缩的一般知识蒸馏不同的地方在于知识蒸馏是将预训练好的、不进行反向传播的“静态”teacher网络的知识单项传递给需要反向传播的”动态”student网络.</p>
-<p>DML:Teacher 网络也要进行反向传播</p>
-<p>7.<strong>Born Again Neural Networks</strong> 再生网络</p>
-<p>核心思路：直接将teacher网络的prediction当作student网络的target，得到第一代student网络的prediction，然后传递给后一代，历经几代之后，将各代student网络的prediction ensemble.形成一个sequence of teaching selves。</p>
-<p>8.在线蒸馏 codistillation</p>
-<p>在分布式训练任务下，提出了一种替代标准SGD训练NN模型的方法codistillation，是一种非同步的算法，事实上有很多个Wieght的副本在独立训练，他可以有效“解决”机器增加但线性度不增加的问题，实验中还有一些数据表面可以比标准的SGD收敛更快</p>
-<p>distill的思想，但是因为是重头训练，所以什么是teacher model呢？作者提出用所有模型的预测平均作为teacher model，然后作为soft target来训练每一个模型。</p>
-<p>10.<a href="https://arxiv.org/abs/1904.09482" target="_blank" rel="external">Improving Multi-Task Deep Neural Networks via Knowledge Distillation for Natural Language Understanding</a> 微软的文章</p>
-<p><img src="source/images/distill/image-20190710163227607.png" alt="image-20190710163227607"></p>
-<p>Teacher是多个，每个是一个MT-DNN，Student是一个小的MT-DNN，朴素的KD做法，效果比Teacher还好</p>
-<p>Code:<a href="https://github.com/namisan/mt-dnn" target="_blank" rel="external">https://github.com/namisan/mt-dnn</a></p>
-<p>发现有益的结论：Hinton的知识蒸馏的第一项权重相当大，这里发现大小差异不大。</p>
-<p>问：Student的网络结构和单个Teacher是一样的？</p>
-<p>11.Model Compression with Multi-Task Knowledge Distillation for Web-scale Question Answering System</p>
-<p>Multi-task Knowledge Distillation Model </p>
-<p>Student：3层BERT结构，使用BERT的参数进行初始化；Teacher: BERT-Base，个数是3个</p>
-<p>在讨论部分提出了一个Enhanced Student Model with Two-Stage Multi-Task Knowledge Distillation，结构如下：</p>
-<p><img src="source/images/distill/image-20190710172005310.png" alt="image-20190710172005310"></p>
-<p>两阶段的范式：第一阶段使用soft label进行学习，第二阶段使用GT和soft label进行学习，效果比MKDM好，但比原始的都要差。</p>
-<h2 id="实现问题思考"><a href="#实现问题思考" class="headerlink" title="实现问题思考"></a>实现问题思考</h2><p>1.student网络的具体形态的选择？很多方式，可以异质也可以同质的</p>
-<p>2.teacher网络的结构，选择几个分类器，因为数据集上不同个数的分类器性能不一样</p>
-<p>3.teacher预测错误的知识需要单独剔除吗？</p>
-<p>4.当类别少的时候效果就不太显著，对于非分类问题也不适用？</p>
-<p>常见的T-S形态</p>
-<p>Case1:</p>
-<p><strong>teacher</strong>：WRN-40-10</p>
-<p><strong>student</strong>: WRN-10-4(CIFAR)/WRN-22-4(Imagenet32)</p>
-<p>Case2:</p>
-<p>Teacher:BERT-Base</p>
-<p>Student:3层BERT / BiLSTMAttn+TextCNN</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/51563760" target="_blank" rel="external">简评 | 知识蒸馏（Knowledge Distillation）最新进展（一）</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/53864403" target="_blank" rel="external">简评 | 知识蒸馏（Knowledge Distillation）最新进展（二）</a></li>
-<li><a href="https://www.zhihu.com/question/50519680/answer/136406661" target="_blank" rel="external">如何理解soft target这一做法？</a></li>
-<li>soft target的作用在于<strong>generalization</strong>。同dropout、L2 regularization、pre-train有相同作用。</li>
-<li><a href="https://blog.csdn.net/nature553863/article/details/80568658" target="_blank" rel="external">知识蒸馏（Knowledge Distillation</a></li>
-</ul>
+        <h2 id="贝叶斯优化小结"><a href="#贝叶斯优化小结" class="headerlink" title="贝叶斯优化小结"></a>贝叶斯优化小结</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>针对通用的函数求最小化的问题 $x<em>∗=argmin</em>{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布</p>
+<h3 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h3><h4 id="SMBO"><a href="#SMBO" class="headerlink" title="SMBO"></a>SMBO</h4><p><strong>Sequential model-based optimization (SMBO)</strong> 是贝叶斯优化的最简形式</p>
+<p><img src="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png" alt="img"></p>
+<h4 id="主要过程"><a href="#主要过程" class="headerlink" title="主要过程"></a>主要过程</h4><p>1.输入步：Input: f黑盒子函数，X训练数据，S为<strong>Acquisition Function</strong>，M为是<strong>基于输入数据假设的模型，即已知的输入数据x都是在这个模型上的</strong>，可以用来假设的模型有很多种，例如随机森林，Tree Parzen Estimators，常见的比如GP高斯分布过程。</p>
+<p>2.初始化步(构建示例)：初始化获取数据InitSamples(f,X), $D={(x_i,y<em>i)}</em>{i=1}^{n}$,其中每一个$y_i$为已知的, 即$y_i=f(x_i)$</p>
+<p>3.迭代步：<br>3.1 $p(y|x,D) &lt;- FitModel(M, D)$ 使用猜想的分布模型M(比如高斯分布) 在特定的数据下进行训练。由于输入服从高斯分布，那么可以知道其预测也是服从高斯分布的。这里实质计算计算高斯分布的主要参数估计的均值和方差。</p>
+<p>3.2.基于估计的假定模型M(高斯分布)去选择当前轮的输入$x_i$,基本思想就是<strong>选择收益最高的点</strong>。主要是利用<strong>Acquisition Function</strong>函数。acquisition function是一个权衡exploritation和exploration的函数。</p>
+<p>1) Optimistic policies , 主要采用上限置信区间（upper confidence bound）。常用的如GP-UCB等方法</p>
+<p>2) Information-based policies,主要思想是利用后验信息来进行选点。常用有Thompson sampling 和 entropy search。基于熵的方法感觉发展空间还比较大，有一些相关工作都有用到这个。</p>
+<p>3) Portfolios of acquisition functions </p>
+<p>这类方法就是将多种AC方法进行集成，最近的工作比如有ESP</p>
+<p>4）<strong>Expected improvement(EI)</strong></p>
+<p>可以在explore和explot之间平衡，explore时选择均值大的点,exploit选择方差大的点</p>
+<p>5） Probability of improvement(POI)</p>
+<p>新的采样能提升最大值的概率最大， MPI（maximum probability of improvement)，或P算法</p>
+<p>3.3 使用新样本进行模型训练，此步骤比较耗时</p>
+<p>3.4 训练实例的更新</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>LDA、组合优化、自动机器学习、增强学习、气象、机器人等等</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>1.<a href="https://blog.csdn.net/Snail_Ren/article/details/79005069" target="_blank" rel="external">https://blog.csdn.net/Snail_Ren/article/details/79005069</a></p>
+<p>2.<a href="https://github.com/tobegit3hub/advisor" target="_blank" rel="external">https://github.com/tobegit3hub/advisor</a> Google内部的Vizier调参服务以及其开源实现Advisor项目</p>
+<p>3.<a href="https://zhuanlan.zhihu.com/p/29779000" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/29779000</a>  贝叶斯优化: 一种更好的超参数调优方式 </p>
 
       
     </div>
@@ -502,9 +454,9 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
       
         <div class="post-tags">
           
-            <a href="/tags/BERT/" rel="tag"># BERT</a>
+            <a href="/tags/机器学习基础/" rel="tag"># 机器学习基础</a>
           
-            <a href="/tags/Distillation/" rel="tag"># Distillation</a>
+            <a href="/tags/贝叶斯优化/" rel="tag"># 贝叶斯优化</a>
           
         </div>
       
@@ -517,8 +469,8 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/09/tool-audio/" rel="next" title="音频特征抽取">
-                <i class="fa fa-chevron-left"></i> 音频特征抽取
+              <a href="/2019/07/11/distill/" rel="next" title="知识蒸馏-Knowledge Distillation">
+                <i class="fa fa-chevron-left"></i> 知识蒸馏-Knowledge Distillation
               </a>
             
           </div>
@@ -526,10 +478,6 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/21/ml-bo/" rel="prev" title="机器学习基础夯实系列-贝叶斯优化">
-                机器学习基础夯实系列-贝叶斯优化 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,10 +492,10 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2019/07/11/distill/"
-     data-title="知识蒸馏-Knowledge Distillation"
+        <div class="ds-share flat" data-thread-key="2019/07/21/ml-bo/"
+     data-title="机器学习基础夯实系列-贝叶斯优化"
      data-content=""
-     data-url="http://yoursite.com/2019/07/11/distill/">
+     data-url="http://yoursite.com/2019/07/21/ml-bo/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -574,8 +522,8 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/07/11/distill/"
-           data-title="知识蒸馏-Knowledge Distillation" data-url="http://yoursite.com/2019/07/11/distill/">
+      <div class="ds-thread" data-thread-key="2019/07/21/ml-bo/"
+           data-title="机器学习基础夯实系列-贝叶斯优化" data-url="http://yoursite.com/2019/07/21/ml-bo/">
       </div>
     
   </div>
@@ -701,7 +649,7 @@ Knowledge Distill是一种简单弥补分类问题监督信号不足的办法. �
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础介绍"><span class="nav-number">1.</span> <span class="nav-text">基础介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核心思想"><span class="nav-number">1.1.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loss表达"><span class="nav-number">1.2.</span> <span class="nav-text">Loss表达</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心结构："><span class="nav-number">1.3.</span> <span class="nav-text">核心结构：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关文章调研"><span class="nav-number">2.</span> <span class="nav-text">相关文章调研</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现问题思考"><span class="nav-number">3.</span> <span class="nav-text">实现问题思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯优化小结"><span class="nav-number">1.</span> <span class="nav-text">贝叶斯优化小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">1.2.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要方法"><span class="nav-number">1.3.</span> <span class="nav-text">主要方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SMBO"><span class="nav-number">1.3.1.</span> <span class="nav-text">SMBO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要过程"><span class="nav-number">1.3.2.</span> <span class="nav-text">主要过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">1.4.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
             
 
           </div>
