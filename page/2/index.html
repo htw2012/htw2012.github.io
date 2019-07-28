@@ -298,6 +298,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/note-esim/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/05/20/note-esim/" itemprop="url">
+                  论文解读-多轮会话ESIM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T17:37:19+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/20/note-esim/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/20/note-esim/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>论文：Sequential Attention-based Network for Noetic End-to-End Response Selection，AAAI19</p>
+<p>来源：阿里巴巴达摩院</p>
+<p>Code:<a href="https://github.com/alibaba/esim-response-selection" target="_blank" rel="external">https://github.com/alibaba/esim-response-selection</a></p>
+<p><strong>ESIM</strong>，全称Enhanced Sequential Inference Model，一种增强序列推断模型</p>
+<h4 id="整体模型结构："><a href="#整体模型结构：" class="headerlink" title="整体模型结构："></a>整体模型结构：</h4><p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722073809600.png" alt="image-20190722073809600"></p>
+<h4 id="输入编码："><a href="#输入编码：" class="headerlink" title="输入编码："></a>输入编码：</h4><p>1.context信息拼接一个长句子，句子之间使用<eou>和<eot>进行分割。</eot></eou></p>
+<p>2.使用预训练的embedding进行初始化，而这里需要注意的是输入部分使用了多个embedding进行拼接比如glove/fasttext.</p>
+<p>3.使用LSTM对输入和context分别进行编码</p>
+<h4 id="局部匹配-Local-Matching"><a href="#局部匹配-Local-Matching" class="headerlink" title="局部匹配-Local Matching"></a>局部匹配-Local Matching</h4><p>思想来源：下一个句子的某个单词或者词组的语义和context有匹配的地方，从而建立起它们的关系</p>
+<p>做法：直接针对输入和context计算它们的匹配矩阵(内积)，然后分别对输入和context进行加权处理得到<strong>对偶矩阵</strong>，进一步，局部匹配的输出是当前向量和对偶向量的四元组进行拼接而成的；</p>
+<p>具体计算逻辑：</p>
+<p>a.计算两两的内积即匹配矩阵</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081045851.png" alt="image-20190722081045851"></p>
+<p>b.利用匹配矩阵计算它的attention后的向量，即对偶向量</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081226714.png" alt="image-20190722081226714"></p>
+<p>c.局部匹配输出四元组形式</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190722081407703.png" alt="image-20190722081407703"></p>
+<p>d.使用一层全联接层进行压缩</p>
+<h4 id="匹配组合-Matching-Composition"><a href="#匹配组合-Matching-Composition" class="headerlink" title="匹配组合 Matching Composition"></a>匹配组合 Matching Composition</h4><p>做法：使用BiLSTM读取局部匹配向量，学习重要的局部匹配组合，相对整体的关系</p>
+<h4 id="输出层"><a href="#输出层" class="headerlink" title="输出层"></a>输出层</h4><p>针对context和input的BiLSTM的2输出进行max/mean操作，然后拼接它们，再送入一个MLP进行得分预测</p>
+<h4 id="Note"><a href="#Note" class="headerlink" title="Note"></a>Note</h4><p>值得注意的是context比较长的处理，比如ubuntu数据，可以先使用sentence encode的方式初选择200个句子，然后再使用ESIM模型进行匹配。具体而言，Sentence-encoding可以通过Siamese的网络结构学习到，主要结构是上图1的a部分。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/drl-conference/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1685,7 +1855,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1696,7 +1866,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1707,7 +1877,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

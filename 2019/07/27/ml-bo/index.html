@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="GAN," />
+  <meta name="keywords" content="机器学习基础,贝叶斯优化," />
 
 
 
@@ -105,22 +105,24 @@
 
 
 
-<meta name="description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
+<meta name="description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
 <meta property="og:type" content="article">
-<meta property="og:title" content="虚拟对抗训练">
-<meta property="og:url" content="http://yoursite.com/2019/07/08/vat/index.html">
+<meta property="og:title" content="机器学习基础夯实系列-贝叶斯优化">
+<meta property="og:url" content="http://yoursite.com/2019/07/27/ml-bo/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
-<meta property="og:updated_time" content="2019-07-08T12:50:50.924Z">
+<meta property="og:description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
+<meta property="og:image" content="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png">
+<meta property="og:updated_time" content="2019-07-28T13:45:22.340Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="虚拟对抗训练">
-<meta name="twitter:description" content="虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。
-1.Word Embedding Perturbation for Sentence Classification
-在答案选择、关系分类、情感分类上，在word embedding上面实现对抗">
+<meta name="twitter:title" content="机器学习基础夯实系列-贝叶斯优化">
+<meta name="twitter:description" content="贝叶斯优化小结背景针对通用的函数求最小化的问题 $x∗=argmin{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路
+基本思想首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布
+主要方法SMBOSequent">
+<meta name="twitter:image" content="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png">
 
 
 
@@ -148,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/08/vat/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/07/27/ml-bo/"/>
 
 
 
 
 
-  <title> 虚拟对抗训练 | 数据娃嚼AI </title>
+  <title> 机器学习基础夯实系列-贝叶斯优化 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +305,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/08/vat/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/27/ml-bo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -324,7 +326,7 @@
             
             
               
-                虚拟对抗训练
+                机器学习基础夯实系列-贝叶斯优化
               
             
           </h1>
@@ -339,8 +341,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T20:37:48+08:00">
-                2019-07-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-27T21:42:34+08:00">
+                2019-07-27
               </time>
             
 
@@ -362,19 +364,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GAN/" itemprop="url" rel="index">
-                    <span itemprop="name">GAN</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/GAN/虚拟对抗训练/" itemprop="url" rel="index">
-                    <span itemprop="name">虚拟对抗训练</span>
+                  <a href="/categories/机器学习基础/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习基础</span>
                   </a>
                 </span>
 
@@ -391,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/08/vat/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/08/vat/" itemprop="commentCount"></span>
+                <a href="/2019/07/27/ml-bo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/27/ml-bo/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -418,19 +409,28 @@
       
 
       
-        <p>虚拟对抗训练(VAT): 全称为Virtual Adversarial Training,核心思想是在监督学习中对抗部分，采取的措施可以是加噪音增强鲁棒性、对抗具体的分布等，联合对抗部分loss一起训练。</p>
-<p>1.Word Embedding Perturbation for Sentence Classification</p>
-<p>在答案选择、关系分类、情感分类上，在word embedding上面实现对抗</p>
-<p>code:<a href="https://github.com/zhangdongxu/word-embedding-perturbation" target="_blank" rel="external">https://github.com/zhangdongxu/word-embedding-perturbation</a></p>
-<p>2.<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1808.03908" target="_blank" rel="external">Adversarial Personalized Ranking for Recommendation</a></p>
-<p>VAT是在对抗训练的基础上将监督学习模型扩展到半监督学习模型，同时模型在同向噪声鲁棒性提高到可以在异向噪声具有鲁棒性，在监督和半监督条件下都取得不错的实验结果。</p>
-<p><strong>3. Virtual Adversarial Training: a Regularization Method for Supervised and Semi-supervised Learning</strong></p>
-<p>利用对抗的思想，要求模型对一个样本在施加对抗性噪声前后给出尽可能相同的预测值，从而对模型施加 smooth regularization，以此利用无标注样本进行半监督学习。论文仅用 100 个标注 MNIST 样本取得 1.36% 的测试误差，仅用 4000 个标注 CIFAR 样本取得 13.15% 的测试误差。</p>
-<p><a href="https://github.com/takerum/vat_tf" target="_blank" rel="external">Code</a></p>
-<p>4.<strong>Adversarial Dropout for Supervised and Semi-supervised Learning</strong></p>
-<p>Virtual Adverarial Training的变种，原来在 input data 上加对抗干扰，本文在网络中间层进行对抗性 dropout，取得了与 VAT 接近的半监督训练效果，配合原始 VAT 一起在 CIFAR 和 SVHN 上取得 state-of-the-art 的半监督学习性能</p>
-<p>5.Distributional Smoothing with Virtual Adversarial Training</p>
-<p>局部分布性平滑(LDS) 的方法，这是统计模型的一个新的光滑概念，可以用作正则化术语来促进模型分布的平滑</p>
+        <h2 id="贝叶斯优化小结"><a href="#贝叶斯优化小结" class="headerlink" title="贝叶斯优化小结"></a>贝叶斯优化小结</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>针对通用的函数求最小化的问题 $x<em>∗=argmin</em>{x∈X}f(x)$ ，如果定义域X是凸集和函数f是凸函数，可以采用凸优化的思路得到最优值,而针对非凸函数，f的一次运算需要大量的资源。通常此时可以采用贝叶斯优化的思路</p>
+<h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><p>首先对f(x)有一个猜想的先验分布模型PF，然后利用后续新获取到的信息，来不断优化那个猜想模型，使模型越来越接近真实的分布</p>
+<h3 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h3><h4 id="SMBO"><a href="#SMBO" class="headerlink" title="SMBO"></a>SMBO</h4><p><strong>Sequential model-based optimization (SMBO)</strong> 是贝叶斯优化的最简形式</p>
+<p><img src="https://ask.qcloudimg.com/draft/1215004/k0e3uubws5.png" alt="img"></p>
+<h4 id="主要过程"><a href="#主要过程" class="headerlink" title="主要过程"></a>主要过程</h4><p>1.输入步：Input: f黑盒子函数，X训练数据，S为<strong>Acquisition Function</strong>，M为是<strong>基于输入数据假设的模型，即已知的输入数据x都是在这个模型上的</strong>，可以用来假设的模型有很多种，例如随机森林，Tree Parzen Estimators，常见的比如GP高斯分布过程。</p>
+<p>2.初始化步(构建示例)：初始化获取数据InitSamples(f,X), $D={(x_i,y<em>i)}</em>{i=1}^{n}$,其中每一个$y_i$为已知的, 即$y_i=f(x_i)$</p>
+<p>3.迭代步：<br>3.1 $p(y|x,D) &lt;- FitModel(M, D)$ 使用猜想的分布模型M(比如高斯分布) 在特定的数据下进行训练。由于输入服从高斯分布，那么可以知道其预测也是服从高斯分布的。这里实质计算计算高斯分布的主要参数估计的均值和方差。</p>
+<p>3.2.基于估计的假定模型M(高斯分布)去选择当前轮的输入$x_i$,基本思想就是<strong>选择收益最高的点</strong>。主要是利用<strong>Acquisition Function</strong>函数。acquisition function是一个权衡exploritation和exploration的函数。</p>
+<p>1) Optimistic policies , 主要采用上限置信区间（upper confidence bound）。常用的如GP-UCB等方法</p>
+<p>2) Information-based policies,主要思想是利用后验信息来进行选点。常用有Thompson sampling 和 entropy search。基于熵的方法感觉发展空间还比较大，有一些相关工作都有用到这个。</p>
+<p>3) Portfolios of acquisition functions </p>
+<p>这类方法就是将多种AC方法进行集成，最近的工作比如有ESP</p>
+<p>4）<strong>Expected improvement(EI)</strong></p>
+<p>可以在explore和explot之间平衡，explore时选择均值大的点,exploit选择方差大的点</p>
+<p>5） Probability of improvement(POI)</p>
+<p>新的采样能提升最大值的概率最大， MPI（maximum probability of improvement)，或P算法</p>
+<p>3.3 使用新样本进行模型训练，此步骤比较耗时</p>
+<p>3.4 训练实例的更新</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>LDA、组合优化、自动机器学习、增强学习、气象、机器人等等</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>1.<a href="https://blog.csdn.net/Snail_Ren/article/details/79005069" target="_blank" rel="external">https://blog.csdn.net/Snail_Ren/article/details/79005069</a></p>
+<p>2.<a href="https://github.com/tobegit3hub/advisor" target="_blank" rel="external">https://github.com/tobegit3hub/advisor</a> Google内部的Vizier调参服务以及其开源实现Advisor项目</p>
+<p>3.<a href="https://zhuanlan.zhihu.com/p/29779000" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/29779000</a>  贝叶斯优化: 一种更好的超参数调优方式 </p>
 
       
     </div>
@@ -454,7 +454,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/GAN/" rel="tag"># GAN</a>
+            <a href="/tags/机器学习基础/" rel="tag"># 机器学习基础</a>
+          
+            <a href="/tags/贝叶斯优化/" rel="tag"># 贝叶斯优化</a>
           
         </div>
       
@@ -467,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/02/RecSys-Advance-BERT/" rel="next" title="推荐系统前沿系列-BERT方法">
-                <i class="fa fa-chevron-left"></i> 推荐系统前沿系列-BERT方法
+              <a href="/2019/07/11/distill/" rel="next" title="知识蒸馏-Knowledge Distillation">
+                <i class="fa fa-chevron-left"></i> 知识蒸馏-Knowledge Distillation
               </a>
             
           </div>
@@ -476,10 +478,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/09/tool-audio/" rel="prev" title="音频特征抽取">
-                音频特征抽取 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -494,10 +492,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2019/07/08/vat/"
-     data-title="虚拟对抗训练"
+        <div class="ds-share flat" data-thread-key="2019/07/27/ml-bo/"
+     data-title="机器学习基础夯实系列-贝叶斯优化"
      data-content=""
-     data-url="http://yoursite.com/2019/07/08/vat/">
+     data-url="http://yoursite.com/2019/07/27/ml-bo/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -524,8 +522,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2019/07/08/vat/"
-           data-title="虚拟对抗训练" data-url="http://yoursite.com/2019/07/08/vat/">
+      <div class="ds-thread" data-thread-key="2019/07/27/ml-bo/"
+           data-title="机器学习基础夯实系列-贝叶斯优化" data-url="http://yoursite.com/2019/07/27/ml-bo/">
       </div>
     
   </div>
@@ -549,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/towan.jpg"
@@ -632,6 +639,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯优化小结"><span class="nav-number">1.</span> <span class="nav-text">贝叶斯优化小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">1.2.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要方法"><span class="nav-number">1.3.</span> <span class="nav-text">主要方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SMBO"><span class="nav-number">1.3.1.</span> <span class="nav-text">SMBO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要过程"><span class="nav-number">1.3.2.</span> <span class="nav-text">主要过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">1.4.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">1.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
