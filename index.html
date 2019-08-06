@@ -298,6 +298,205 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/tool-faiss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/07/30/tool-faiss/" itemprop="url">
+                  相似性搜索工具-Faiss
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-30T15:32:52+08:00">
+                2019-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/match/" itemprop="url" rel="index">
+                    <span itemprop="name">match</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/30/tool-faiss/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/30/tool-faiss/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Faiss"><a href="#Faiss" class="headerlink" title="Faiss"></a>Faiss</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>目标：在千万规模的数据上，高效计算内积/相似性，返回top-K个结果</p>
+<p>文章：Billion-scale similarity search with GPUs</p>
+<p>代码：<a href="https://github.com/facebookresearch/faiss" target="_blank" rel="external">https://github.com/facebookresearch/faiss</a></p>
+<p>简介：</p>
+<ul>
+<li>时间、质量和训练速度的权衡。</li>
+<li>Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其包含了在任何大小（甚至可以大到装不进 RAM）的向量集中进行搜索的算法。其也包含用于评估和参数调整的支持性代码。</li>
+<li>Faiss 是围绕一种存储了一个向量集的索引类型（index type）而构建的，并且提供了一个使用 L2 或点积向量比较在其中进行搜索的函数。</li>
+</ul>
+<p>方法：提出了一种用于 k-selection 的设计，其可以以高达理论峰值性能 55% 的速度进行运算，从而实现了比之前最佳的 GPU 方法快 8.5 倍的最近邻KNN搜索。另外，基于积量化（product quantization）的暴力计算、近似和压缩域搜索（compressed-domain search）提出优化过的设计，从而将其应用到了不同的相似性搜索场景中。</p>
+<p>效果： 35 分钟内从 Yfcc100M 数据集的 9500 万张图像上构建一个高准确度的 k-NN 图（graph），也可以在 12 个小时内在 4 个 Maxwell Titan X GPU 上构建一个连接了 10 亿个向量的图。</p>
+<p>实现细节：</p>
+<ul>
+<li><p>WarpSelect：文中提出的 k-selection 的设计，完全在寄存器（register）中维持状态，且仅需要在数据上进行单次通过，从而避免了 cross-warp synchronization，使用merge-odd 和 sort-odd 作为原语。</p>
+<p>WarpSelect的整体流程如下：</p>
+<p><img src="images/image-20190730073228959.png" alt="image-20190730073228959"></p>
+</li>
+<li><p>针对特定lane j的流程如下：       <img src="images/image-20190730073429119.png" alt="image-20190730073429119"></p>
+</li>
+</ul>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
+<li>安装：pip install faiss-cpu</li>
+<li>使用示例：<a href="https://github.com/facebookresearch/faiss/wiki/Getting-started" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Getting-started</a><ul>
+<li>准备数据</li>
+<li>构建索引：可以选择的索引格式为<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faiss-indexes</a></li>
+<li>搜索查询：search(query, top-k)</li>
+</ul>
+</li>
+</ul>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
+<li><p>Faiss的基础使用：<a href="https://waltyou.github.io/Faiss-Introduce/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Introduce/</a></p>
+</li>
+<li><p>Faiss Indexs 的进一步了解：<a href="https://waltyou.github.io/Faiss-Indexs/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Indexs/</a></p>
+</li>
+<li><p>向量检索在闲鱼视频去重的实践：<a href="https://zhuanlan.zhihu.com/p/43972326" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/43972326</a></p>
+</li>
+<li><p>阿里BE引擎深度集成开源的KNN库–FAISS<br>改造定制使其支持向量索引的分布式构建和查询，实现多种基于量化的方法如粗量化、积量化以及粗量化 + 积量化的组合等方法，并且在线查询的延时、索引构建的性能都很优秀。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/21/ml-bo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -429,6 +628,7 @@
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>1.<a href="https://blog.csdn.net/Snail_Ren/article/details/79005069" target="_blank" rel="external">https://blog.csdn.net/Snail_Ren/article/details/79005069</a></p>
 <p>2.<a href="https://github.com/tobegit3hub/advisor" target="_blank" rel="external">https://github.com/tobegit3hub/advisor</a> Google内部的Vizier调参服务以及其开源实现Advisor项目</p>
 <p>3.<a href="https://zhuanlan.zhihu.com/p/29779000" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/29779000</a>  贝叶斯优化: 一种更好的超参数调优方式 </p>
+<p>4.贝叶斯参数调优实战：<a href="https://www.jianshu.com/p/4c0cef6176fa" target="_blank" rel="external">https://www.jianshu.com/p/4c0cef6176fa</a></p>
 
           
         
@@ -1979,165 +2179,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/18/fat-deepffm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/18/fat-deepffm/" itemprop="url">
-                  FAT-DeepFFM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-18T23:22:04+08:00">
-                2019-06-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
-                    <span itemprop="name">推荐系统</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/18/fat-deepffm/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/18/fat-deepffm/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><ul>
-<li>推荐和广告的核心技术是CTR预估技术；</li>
-<li>CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法;</li>
-<li>Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；</li>
-<li>SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；</li>
-</ul>
-<h3 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h3><p>如何在CTR领域，利用FFM+Attention的共同联合构建较强的DeepCTR预估模型</p>
-<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><h4 id="模型的整体结构"><a href="#模型的整体结构" class="headerlink" title="模型的整体结构"></a>模型的整体结构</h4><p><img src="images/image-20190523115537069.png" alt="image-20190523115537069"></p>
-<h4 id="核心部件CENet"><a href="#核心部件CENet" class="headerlink" title="核心部件CENet"></a>核心部件CENet</h4><p><img src="images/image-20190523115931135.png" alt="image-20190523115931135"></p>
-<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><p><img src="images/image-20190523115701211.png" alt="image-20190523115701211"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2187,7 +2228,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2198,7 +2239,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2209,7 +2250,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
