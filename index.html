@@ -298,6 +298,230 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/02/tf-crf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/08/02/tf-crf/" itemprop="url">
+                  TensorFlow中使用CRF
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-02T16:08:36+08:00">
+                2019-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/CRF/" itemprop="url" rel="index">
+                    <span itemprop="name">CRF</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/02/tf-crf/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/08/02/tf-crf/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>背景：关于CRF的应用，尤其是在深度学习之前它是一个nlp序列建模的比较主流方法，即使是深度学习大行其道，也会出现crf的影子，比如bilstm+crf, bert+crf.  关于crf的原理可参考众多的资料，本文提供一个在tensorflow中使用crf的一个简要概述。</p>
+<h3 id="CRF使用的主要API"><a href="#CRF使用的主要API" class="headerlink" title="CRF使用的主要API"></a>CRF使用的主要API</h3><ul>
+<li><p>crf_log_likelihood</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">def crf_log_likelihood(inputs,</div><div class="line">                       tag_indices,</div><div class="line">                       sequence_lengths,</div><div class="line">                       transition_params=None):</div><div class="line">  &quot;&quot;&quot;Computes the log-likelihood of tag sequences in a CRF.</div><div class="line"></div><div class="line">  Args:</div><div class="line">    inputs: A [batch_size, max_seq_len, num_tags] tensor of unary potentials</div><div class="line">        to use as input to the CRF layer.</div><div class="line">    tag_indices: A [batch_size, max_seq_len] matrix of tag indices for which we</div><div class="line">        compute the log-likelihood.</div><div class="line">    sequence_lengths: A [batch_size] vector of true sequence lengths.</div><div class="line">    transition_params: A [num_tags, num_tags] transition matrix, if available.</div><div class="line">  Returns:</div><div class="line">    log_likelihood: A [batch_size] `Tensor` containing the log-likelihood of</div><div class="line">      each example, given the sequence of tag indices.</div><div class="line">    transition_params: A [num_tags, num_tags] transition matrix. This is either</div><div class="line">        provided by the caller or created in this function.</div><div class="line">  &quot;&quot;&quot;</div></pre></td></tr></table></figure>
+<p>输入：</p>
+<ul>
+<li>inputs，一元势能得分，针对每个word级别，每个标签的预测概率值，&lt;句子长度,标签大小&gt;的tensor</li>
+<li>tag_indices：真实标签的序列，&lt;句子长度,标签大小&gt;的tensor</li>
+<li>sequence_lengths：实际标签序列的长度，为一个值</li>
+<li>transition_params：标签状态转移矩阵，学习的参数矩阵，可以预先给定</li>
+</ul>
+<p>输出：</p>
+<ul>
+<li>log_likelihood，word级别的对数似然概率</li>
+<li>transition_params：学习后的状态转移矩阵</li>
+</ul>
+</li>
+<li><p>解码过程的两个可用的API</p>
+<ul>
+<li>tf.contrib.crf.viterbi_decode(tf_unary<em>scores</em>, tf_transition_params) </li>
+<li>tf.contrib.crf.crf_decode(unary_scores, transition_params, sequence_lengths) </li>
+</ul>
+</li>
+<li><p>一个具体的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line"></div><div class="line"><span class="comment"># Data settings.</span></div><div class="line">num_examples = <span class="number">10</span></div><div class="line">num_words = <span class="number">20</span></div><div class="line">num_features = <span class="number">100</span></div><div class="line">num_tags = <span class="number">5</span></div><div class="line"></div><div class="line"><span class="comment"># Random features.</span></div><div class="line">x = np.random.rand(num_examples, num_words, num_features).astype(np.float32)</div><div class="line"></div><div class="line"><span class="comment"># Random tag indices representing the gold sequence.</span></div><div class="line">y = np.random.randint(num_tags, size=[num_examples, num_words]).astype(np.int32)</div><div class="line"></div><div class="line"><span class="comment"># All sequences in this example have the same length, but they can be variable in a real model.</span></div><div class="line">sequence_lengths = np.full(num_examples, num_words - <span class="number">1</span>, dtype=np.int32)</div><div class="line"></div><div class="line"><span class="comment"># Train and evaluate the model.</span></div><div class="line"><span class="keyword">with</span> tf.Graph().as_default():</div><div class="line">  <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> session:</div><div class="line">    <span class="comment"># Add the data to the TensorFlow graph.</span></div><div class="line">    x_t = tf.constant(x)</div><div class="line">    y_t = tf.constant(y)</div><div class="line">    sequence_lengths_t = tf.constant(sequence_lengths)</div><div class="line"></div><div class="line">    <span class="comment"># Compute unary scores from a linear layer.</span></div><div class="line">    weights = tf.get_variable(<span class="string">"weights"</span>, [num_features, num_tags])</div><div class="line">    matricized_x_t = tf.reshape(x_t, [<span class="number">-1</span>, num_features])</div><div class="line">    matricized_unary_scores = tf.matmul(matricized_x_t, weights)</div><div class="line">    unary_scores = tf.reshape(matricized_unary_scores,</div><div class="line">                              [num_examples, num_words, num_tags])</div><div class="line"></div><div class="line">    <span class="comment"># Compute the log-likelihood of the gold sequences and keep the transition</span></div><div class="line">    <span class="comment"># params for inference at test time.</span></div><div class="line">    log_likelihood, transition_params = tf.contrib.crf.crf_log_likelihood(</div><div class="line">        unary_scores, y_t, sequence_lengths_t)</div><div class="line"></div><div class="line">    <span class="comment"># Compute the viterbi sequence and score.</span></div><div class="line">    viterbi_sequence, viterbi_score = tf.contrib.crf.crf_decode(</div><div class="line">        unary_scores, transition_params, sequence_lengths_t)</div><div class="line"></div><div class="line">    <span class="comment"># Add a training op to tune the parameters.</span></div><div class="line">    loss = tf.reduce_mean(-log_likelihood)</div><div class="line">    train_op = tf.train.GradientDescentOptimizer(<span class="number">0.01</span>).minimize(loss)</div><div class="line"></div><div class="line">    session.run(tf.global_variables_initializer())</div><div class="line"></div><div class="line">    mask = (np.expand_dims(np.arange(num_words), axis=<span class="number">0</span>) &lt;</div><div class="line">            np.expand_dims(sequence_lengths, axis=<span class="number">1</span>))</div><div class="line">    total_labels = np.sum(sequence_lengths)</div><div class="line"></div><div class="line">    <span class="comment"># Train for a fixed number of iterations.</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</div><div class="line">      tf_viterbi_sequence, _ = session.run([viterbi_sequence, train_op])</div><div class="line">      <span class="keyword">if</span> i % <span class="number">100</span> == <span class="number">0</span>:</div><div class="line">        correct_labels = np.sum((y == tf_viterbi_sequence) * mask)</div><div class="line">        accuracy = <span class="number">100.0</span> * correct_labels / float(total_labels)</div><div class="line">        print(<span class="string">"Accuracy: %.2f%%"</span> % accuracy)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="CRF-编码-训练逻辑"><a href="#CRF-编码-训练逻辑" class="headerlink" title="CRF 编码/训练逻辑"></a>CRF 编码/训练逻辑</h3><ul>
+<li><p>获得表示：获得原始的model产出表示，比如lstm或者bert的产出的表示，&lt;句子长度,隐藏大小&gt;的tensor.</p>
+</li>
+<li><p>计算每个word得分/全局的一元势函数(global <strong>unary potential</strong>)：加入Project映射层计算每个word的得分，输出的大小为&lt;句子长度,标签大小&gt;</p>
+</li>
+<li><p>Train: 使用crf_log_likelihood进行极大似然估计的train,这里可以标签的转移矩阵需要学习，是一个参数矩阵，得到一个log_likelihood和标签状态转移表示(decode用)</p>
+<p>log_likelihood, transition_params = tf.contrib.crf.crf_log_likelihood(<br>unary_scores, gold_tags, sequence_lengths, trans)</p>
+</li>
+<li><p>在word级别上累加计算loss</p>
+<p>loss = tf.reduce_mean(-log_likelihood)</p>
+</li>
+<li><p>选择具体的优化算法进行学习</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">train_op = tf.train.GradientDescentOptimizer(0.01).minimize(loss)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="CRF-解码-测试逻辑"><a href="#CRF-解码-测试逻辑" class="headerlink" title="CRF 解码/测试逻辑"></a>CRF 解码/测试逻辑</h3><p>一种可以使用crf_decode的tf代码进行解码，另外一种使用Numpy代码的viterbi_decode解码方式</p>
+<p>numpy的解码风格:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">tf_unary_scores, tf_sequence_lengths, tf_transition_params, _ = session.run([unary_scores, sequence_lengths, transition_params, train_op])</div><div class="line"><span class="keyword">for</span> tf_unary_scores_, tf_sequence_length_ <span class="keyword">in</span> zip(tf_unary_scores, tf_sequence_lengths):</div><div class="line">    <span class="comment"># Remove padding.</span></div><div class="line">    tf_unary_scores_ = tf_unary_scores_[:tf_sequence_length_]</div><div class="line">    <span class="comment"># Compute the highest score and its tag sequence.</span></div><div class="line">    tf_viterbi_sequence, tf_viterbi_score = tf.contrib.crf.viterbi_decode(</div><div class="line">        tf_unary_scores_, tf_transition_params)</div></pre></td></tr></table></figure>
+<p>TF的风格</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">viterbi_sequence, viterbi_score = tf.contrib.crf.crf_decode(unary_scores, transition_params, sequence_lengths)</div><div class="line"></div><div class="line">tf_viterbi_sequence, tf_viterbi_score, _ = session.run([viterbi_sequence, viterbi_score, train_op])</div></pre></td></tr></table></figure>
+<p>主要逻辑：</p>
+<ul>
+<li><p>通过crf正向过程获得标签状态转移的参数transition_params。</p>
+<p>log_likelihood, transition_params = tf.contrib.crf.crf_log_likelihood(<br>unary_scores, gold_tags, sequence_lengths)</p>
+</li>
+<li><p>尝试上面介绍的任意一种解码的风格，输入参数都是transition_params和unary_scores一元势能函数，得到具体的解码序列</p>
+</li>
+</ul>
+<p>要点：</p>
+<p>1.transition_params标都是来自于crf_log_likelihood的第二个输出值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">log_likelihood, transition_params = tf.contrib.crf.crf_log_likelihood(</div><div class="line">    unary_scores, gold_tags, sequence_lengths)</div></pre></td></tr></table></figure>
+<p>2.unary_scores，是针对每个词的输入的得分(一元势能函数得分)，维度大小是&lt;句子长度, 标签大小&gt;，一般来源都是经过了一个project层/全联接层，比如</p>
+<ul>
+<li>bi-lstm, 输出为 &lt;句子长度,2倍隐藏大小&gt;, 这时需要一个映射层<2倍隐藏大小,标签大小>，转化为针对每个word的&lt;句子长度, 标签大小&gt;.</2倍隐藏大小,标签大小></li>
+<li>Bert,输出为&lt;句子长度，隐层大小768&gt;, 这时需要一个映射层&lt;隐层大小,标签大小&gt;，转化为针对每个word的&lt;句子长度, 标签大小&gt;.</li>
+</ul>
+<p>3.训练过程和测试/解码过程都需要传入句子的实际长度的参数，主要是针对输入的长度进行了padding为最长，测试统计的时候要去掉这个部分。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/30/tool-faiss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -440,14 +664,22 @@
 </ul>
 <h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
 <li>安装：pip install faiss-cpu</li>
-<li>使用示例：<a href="https://github.com/facebookresearch/faiss/wiki/Getting-started" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Getting-started</a><ul>
+<li><p>使用示例：<a href="https://github.com/facebookresearch/faiss/wiki/Getting-started" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Getting-started</a></p>
+<ul>
 <li>准备数据</li>
 <li>构建索引：可以选择的索引格式为<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faiss-indexes</a></li>
 <li>搜索查询：search(query, top-k)</li>
 </ul>
 </li>
+<li><p>加速搜索的一些技巧：<a href="https://github.com/facebookresearch/faiss/wiki/Faster-search" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faster-search</a></p>
+<ul>
+<li>使用复合的索引：<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes-(composite)" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faiss-indexes-(composite)</a></li>
+<li>IndexFlatL2 和 IndexIVFFlat都要存储所有的向量数据，对于大型数据集是不现实的, Faiss基于PQ提供了变体<strong>IndexIVFPQ</strong>来压缩数据向量（一定的精度损耗）</li>
+</ul>
+</li>
 </ul>
 <h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
+<li><a href="https://www.cnblogs.com/houkai/p/9316129.html" target="_blank" rel="external">Faiss教程：入门</a></li>
 <li><p>Faiss的基础使用：<a href="https://waltyou.github.io/Faiss-Introduce/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Introduce/</a></p>
 </li>
 <li><p>Faiss Indexs 的进一步了解：<a href="https://waltyou.github.io/Faiss-Indexs/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Indexs/</a></p>
@@ -1991,194 +2223,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/fibinet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/19/fibinet/" itemprop="url">
-                  FiBiNET
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-19T00:10:57+08:00">
-                2019-06-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
-                    <span itemprop="name">推荐系统</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/CTR预估/" itemprop="url" rel="index">
-                    <span itemprop="name">CTR预估</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/19/fibinet/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/19/fibinet/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><ul>
-<li>推荐和广告的核心技术是CTR预估技术；</li>
-<li>CTR预估的核心在于如何构建有效的特征组合,FFM是构建特征组合的当前高效方法, FFM的参数量️巨大，值得去改进;</li>
-<li><p>Attention机制在NLP、CV、推荐等许多领域取得成功，具有选择出有效信息，抑制无效信息，而特征组合也面临有效的和无效的特征组合；</p>
-</li>
-<li><p>SENET在图像识别领域取得ILSVRC 2017的冠军，同样具备类似的Attention作用；</p>
-</li>
-</ul>
-<h3 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h3><ul>
-<li>如何在CTR领域，利用更少的参数使用，达到FFM的效果？</li>
-<li>如何使用SENET技术，进一步提高效果 ？</li>
-<li>DeepCTR结构下，如何获得进一步的提升 ？</li>
-</ul>
-<h3 id="FiBiNET-Model"><a href="#FiBiNET-Model" class="headerlink" title="FiBiNET-Model"></a>FiBiNET-Model</h3><h4 id="FiBiNET-Architecture"><a href="#FiBiNET-Architecture" class="headerlink" title="FiBiNET Architecture"></a>FiBiNET Architecture</h4><p><img src="images/image-20190523141754590.png" alt="image-20190523141754590"></p>
-<h4 id="Core-components-SENET"><a href="#Core-components-SENET" class="headerlink" title="Core components: SENET"></a>Core components: SENET</h4><p><img src="images/image-20190523141846195.png" alt="image-20190523141846195"></p>
-<h4 id="Core-components-Bilinear-Interaction-Layer"><a href="#Core-components-Bilinear-Interaction-Layer" class="headerlink" title="Core components:  Bilinear-Interaction Layer"></a>Core components:  Bilinear-Interaction Layer</h4><p><img src="images/image-20190523141956530.png" alt="image-20190523141956530"></p>
-<p><img src="images/image-20190523142025589.png" alt="image-20190523142025589"></p>
-<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><h4 id="1-Over-Performance"><a href="#1-Over-Performance" class="headerlink" title="1.Over Performance"></a>1.Over Performance</h4><ul>
-<li><p>shallow model</p>
-<p><img src="images/image-20190523142222815.png" alt="image-20190523142222815"></p>
-</li>
-<li><p>Deep model</p>
-<p> <img src="images/image-20190523142321753.png" alt="image-20190523142321753"></p>
-</li>
-</ul>
-<h4 id="2-Bilinear-Interaction-Different-Field-Types"><a href="#2-Bilinear-Interaction-Different-Field-Types" class="headerlink" title="2.Bilinear-Interaction(Different Field Types)"></a>2.Bilinear-Interaction(Different Field Types)</h4><p><img src="images/image-20190523142405249.png" alt="image-20190523142405249"></p>
-<h4 id="3-Bilinear-Interaction-Different-Combinations"><a href="#3-Bilinear-Interaction-Different-Combinations" class="headerlink" title="3.Bilinear-Interaction(Different Combinations)"></a>3.Bilinear-Interaction(Different Combinations)</h4><p><img src="images/image-20190523142520725.png" alt="image-20190523142520725"></p>
-<h4 id="4-Ablation-Study"><a href="#4-Ablation-Study" class="headerlink" title="4.Ablation Study"></a>4.Ablation Study</h4><p><img src="images/image-20190523142646196.png" alt="image-20190523142646196"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2228,7 +2272,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2239,7 +2283,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2250,7 +2294,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -125,7 +125,7 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
 Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其包含了在任何大小（甚至可以大到装不进">
 <meta property="og:image" content="http://yoursite.com/images/image-20190730073228959.png">
 <meta property="og:image" content="http://yoursite.com/images/image-20190730073429119.png">
-<meta property="og:updated_time" content="2019-08-06T07:44:41.347Z">
+<meta property="og:updated_time" content="2019-08-07T06:36:55.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="相似性搜索工具-Faiss">
 <meta name="twitter:description" content="Faiss背景目标：在千万规模的数据上，高效计算内积/相似性，返回top-K个结果
@@ -455,14 +455,22 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
 </ul>
 <h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><ul>
 <li>安装：pip install faiss-cpu</li>
-<li>使用示例：<a href="https://github.com/facebookresearch/faiss/wiki/Getting-started" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Getting-started</a><ul>
+<li><p>使用示例：<a href="https://github.com/facebookresearch/faiss/wiki/Getting-started" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Getting-started</a></p>
+<ul>
 <li>准备数据</li>
 <li>构建索引：可以选择的索引格式为<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faiss-indexes</a></li>
 <li>搜索查询：search(query, top-k)</li>
 </ul>
 </li>
+<li><p>加速搜索的一些技巧：<a href="https://github.com/facebookresearch/faiss/wiki/Faster-search" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faster-search</a></p>
+<ul>
+<li>使用复合的索引：<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes-(composite)" target="_blank" rel="external">https://github.com/facebookresearch/faiss/wiki/Faiss-indexes-(composite)</a></li>
+<li>IndexFlatL2 和 IndexIVFFlat都要存储所有的向量数据，对于大型数据集是不现实的, Faiss基于PQ提供了变体<strong>IndexIVFPQ</strong>来压缩数据向量（一定的精度损耗）</li>
+</ul>
+</li>
 </ul>
 <h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
+<li><a href="https://www.cnblogs.com/houkai/p/9316129.html" target="_blank" rel="external">Faiss教程：入门</a></li>
 <li><p>Faiss的基础使用：<a href="https://waltyou.github.io/Faiss-Introduce/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Introduce/</a></p>
 </li>
 <li><p>Faiss Indexs 的进一步了解：<a href="https://waltyou.github.io/Faiss-Indexs/" target="_blank" rel="external">https://waltyou.github.io/Faiss-Indexs/</a></p>
@@ -517,6 +525,10 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/02/tf-crf/" rel="prev" title="TensorFlow中使用CRF">
+                TensorFlow中使用CRF <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -611,7 +623,7 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -622,7 +634,7 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -633,7 +645,7 @@ Faiss 是一个用于有效的相似性搜索和密集向量聚类的库。其�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
