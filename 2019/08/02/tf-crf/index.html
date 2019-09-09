@@ -117,7 +117,7 @@ crf_log_likelihood
 CRF使用的主要API
 crf_log_likelihood
 12345678910111213141516171819de">
-<meta property="og:updated_time" content="2019-08-16T08:11:51.834Z">
+<meta property="og:updated_time" content="2019-08-16T08:14:13.538Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow中使用CRF">
 <meta name="twitter:description" content="背景：关于CRF的应用，尤其是在深度学习之前它是一个nlp序列建模的比较主流方法，即使是深度学习大行其道，也会出现crf的影子，比如bilstm+crf, bert+crf.  关于crf的原理可参考众多的资料，本文提供一个在tensorflow中使用crf的一个简要概述。
@@ -449,7 +449,7 @@ crf_log_likelihood
 </li>
 </ul>
 <h3 id="CRF-编码-训练逻辑"><a href="#CRF-编码-训练逻辑" class="headerlink" title="CRF 编码/训练逻辑"></a>CRF 编码/训练逻辑</h3><ul>
-<li><p>获得表示：获得原始的model产出表示，比如lstm或者bert的产出的表示，&lt;句子长度,隐藏大小&gt;的tensor.</p>
+<li><p>获得表示：获得原始的model产出，比如lstm或者bert的表示，&lt;句子长度,隐藏大小&gt;的tensor.</p>
 </li>
 <li><p>计算每个word得分/全局的一元势函数(global <strong>unary potential</strong>)：加入Project映射层计算每个word的得分，输出的大小为&lt;句子长度,标签大小&gt;</p>
 </li>
@@ -532,6 +532,10 @@ crf_log_likelihood
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/12/tool-tdm/" rel="prev" title="TDM-深度树匹配">
+                TDM-深度树匹配 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -626,7 +630,7 @@ crf_log_likelihood
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

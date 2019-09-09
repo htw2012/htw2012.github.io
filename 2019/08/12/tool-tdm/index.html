@@ -89,7 +89,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="心理学,书籍," />
+  <meta name="keywords" content="match," />
 
 
 
@@ -105,34 +105,19 @@
 
 
 
-<meta name="description" content="心理学书籍收藏相关书籍：
-《与“众”不同的心理学》，《助推-我们如何作出最佳选择》，《无从选择-为何多既是少》
-《让创意更有粘性》，《社会性动物》，《找寻逝去的自我》
-《引爆点》，《决断2秒间》，《异类：不一样的成功启示录》
-《决策与判断》，《别做正常的傻瓜》，《怪诞行为学》，
-《错不在我》，《本能》，《影响力》，
-《摇摆》，《进化心理学》，《学会提问》">
+<meta name="description" content="之前介绍过基于乘积量化方式PQ构建分库索引的fasis工具解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问">
 <meta property="og:type" content="article">
-<meta property="og:title" content="心理学书籍">
-<meta property="og:url" content="http://yoursite.com/2017/03/12/hard_time/index.html">
+<meta property="og:title" content="TDM-深度树匹配">
+<meta property="og:url" content="http://yoursite.com/2019/08/12/tool-tdm/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
-<meta property="og:description" content="心理学书籍收藏相关书籍：
-《与“众”不同的心理学》，《助推-我们如何作出最佳选择》，《无从选择-为何多既是少》
-《让创意更有粘性》，《社会性动物》，《找寻逝去的自我》
-《引爆点》，《决断2秒间》，《异类：不一样的成功启示录》
-《决策与判断》，《别做正常的傻瓜》，《怪诞行为学》，
-《错不在我》，《本能》，《影响力》，
-《摇摆》，《进化心理学》，《学会提问》">
-<meta property="og:updated_time" content="2019-06-18T14:01:50.751Z">
+<meta property="og:description" content="之前介绍过基于乘积量化方式PQ构建分库索引的fasis工具解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问">
+<meta property="og:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png">
+<meta property="og:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823114344868.png">
+<meta property="og:updated_time" content="2019-09-09T01:14:53.093Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="心理学书籍">
-<meta name="twitter:description" content="心理学书籍收藏相关书籍：
-《与“众”不同的心理学》，《助推-我们如何作出最佳选择》，《无从选择-为何多既是少》
-《让创意更有粘性》，《社会性动物》，《找寻逝去的自我》
-《引爆点》，《决断2秒间》，《异类：不一样的成功启示录》
-《决策与判断》，《别做正常的傻瓜》，《怪诞行为学》，
-《错不在我》，《本能》，《影响力》，
-《摇摆》，《进化心理学》，《学会提问》">
+<meta name="twitter:title" content="TDM-深度树匹配">
+<meta name="twitter:description" content="之前介绍过基于乘积量化方式PQ构建分库索引的fasis工具解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问">
+<meta name="twitter:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png">
 
 
 
@@ -160,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/12/hard_time/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/08/12/tool-tdm/"/>
 
 
 
 
 
-  <title> 心理学书籍 | 数据娃嚼AI </title>
+  <title> TDM-深度树匹配 | 数据娃嚼AI </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -315,7 +300,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/12/hard_time/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/tool-tdm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="数据娃嚼AI">
@@ -336,7 +321,7 @@
             
             
               
-                心理学书籍
+                TDM-深度树匹配
               
             
           </h1>
@@ -351,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T08:58:30+08:00">
-                2017-03-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T10:50:37+08:00">
+                2019-08-12
               </time>
             
 
@@ -374,8 +359,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/book/" itemprop="url" rel="index">
-                    <span itemprop="name">book</span>
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/match/" itemprop="url" rel="index">
+                    <span itemprop="name">match</span>
                   </a>
                 </span>
 
@@ -392,8 +388,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/12/hard_time/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/hard_time/" itemprop="commentCount"></span>
+                <a href="/2019/08/12/tool-tdm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/08/12/tool-tdm/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,13 +415,32 @@
       
 
       
-        <h3 id="心理学书籍收藏"><a href="#心理学书籍收藏" class="headerlink" title="心理学书籍收藏"></a>心理学书籍收藏</h3><p>相关书籍：</p>
-<p>《与“众”不同的心理学》，《助推-我们如何作出最佳选择》，《无从选择-为何多既是少》</p>
-<p>《让创意更有粘性》，《社会性动物》，《找寻逝去的自我》</p>
-<p>《引爆点》，《决断2秒间》，《异类：不一样的成功启示录》</p>
-<p>《决策与判断》，《别做正常的傻瓜》，《怪诞行为学》，</p>
-<p>《错不在我》，《本能》，《影响力》，</p>
-<p>《摇摆》，《进化心理学》，《学会提问》</p>
+        <p>之前介绍过基于乘积量化方式PQ构建分库索引的<a href="https://htw2012.github.io/2019/07/30/tool-faiss/" target="_blank" rel="external">fasis工具</a>解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问题。针对召回和排序两阶段联合为一个阶段是目前的一个大趋势，而本文重点关注的是如何高效地进行全库检索。下文为个人解读的主要梳理部分</p>
+<p>问题背景：某某场景下，加速全库匹配过程</p>
+<p>文章：</p>
+<p>TDM一期：Learning Tree-based Deep Model for Recommender Systems</p>
+<p>TDM二期：Joint Optimization of Tree-based Index and Deep Model for Recommender Systems</p>
+<p>代码：<a href="https://github.com/alibaba/x-deeplearning/tree/master/xdl-algorithm-solution/TDM" target="_blank" rel="external">https://github.com/alibaba/x-deeplearning/tree/master/xdl-algorithm-solution/TDM</a></p>
+<ul>
+<li><p>离线训练： <a href="https://github.com/alibaba/x-deeplearning/wiki/深度树匹配模型(TDM" target="_blank" rel="external">https://github.com/alibaba/x-deeplearning/wiki/深度树匹配模型(TDM</a>) </p>
+</li>
+<li><p>在线Serving：<a href="https://github.com/alibaba/x-deeplearning/wiki/TDMServing" target="_blank" rel="external">https://github.com/alibaba/x-deeplearning/wiki/TDMServing</a> </p>
+</li>
+</ul>
+<p>来源：参考人脑，兴趣的建立由粗到细的组织方式和检索方法，比如10亿的商品列表，只需要30次的查找  </p>
+<p>How: 为什么检索出来的top-k，就是用户感兴趣的 Topk?有效性如何去保证？有效性检索的建模背后隐藏着对用户兴趣的建模。</p>
+<p>基础结构：用户兴趣的最大堆树，首先是定义第j层用户对节点n的兴趣为用户对对节点n的子节点层下j+1的兴趣最大值。</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png" alt="image-20190823113809654"></p>
+<p>由于是递归定义，具有性质：最大堆树下，当前层最优 TopK 节点的父亲，一定属于上一层的最优 TopK。</p>
+<p>扩展点：这里的max操作可以如何去替换？min, all??</p>
+<p>举例如下：</p>
+<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823114344868.png" alt="image-20190823114344868"></p>
+<p>如果item6和item8是全局的最优top2节点，那么SN层中SN3和SN4是最优的top2.</p>
+<p>由此可见，用户兴趣的最大堆树的定义是保证这种检索(beam seach)有效的充分条件，所以实际做的过程可以从根节点出发，逐层选择top-k,一直到叶子节点。</p>
+<p>既然最大堆树的定义保证这种检索的有效性，那么这棵树应该如何去学习？</p>
+<p>从检索本质看，针对具体的某一层，beam search检索过程需要保证当前层检索层具有top k排序的能力。</p>
+<p>整体的思路：构建符合这样性质的样本，让<strong>样本牵引模型学习</strong>，去逼近最大堆。</p>
+<p>具体的做法：主要分叶子层的节点兴趣和中间层的节点兴趣两部分进行构建。叶子层的节点兴趣，从用户的直接行为产生，对应着感兴趣和不感兴趣。中间层的兴趣节点，<strong>用最大堆递归上述的方式去推导每一层的序标签</strong>，当我们有了每一层的序标签，就可以用深度学习去拟合序标签的样本。</p>
 
       
     </div>
@@ -449,9 +464,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/心理学/" rel="tag"># 心理学</a>
-          
-            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+            <a href="/tags/match/" rel="tag"># match</a>
           
         </div>
       
@@ -464,8 +477,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/09/couplet/" rel="next" title="对联一句">
-                <i class="fa fa-chevron-left"></i> 对联一句
+              <a href="/2019/08/02/tf-crf/" rel="next" title="TensorFlow中使用CRF">
+                <i class="fa fa-chevron-left"></i> TensorFlow中使用CRF
               </a>
             
           </div>
@@ -473,10 +486,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/07/net-evolve/" rel="prev" title="基于遗传生命的自动网络结构生成">
-                基于遗传生命的自动网络结构生成 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -491,10 +500,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/12/hard_time/"
-     data-title="心理学书籍"
+        <div class="ds-share flat" data-thread-key="2019/08/12/tool-tdm/"
+     data-title="TDM-深度树匹配"
      data-content=""
-     data-url="http://yoursite.com/2017/03/12/hard_time/">
+     data-url="http://yoursite.com/2019/08/12/tool-tdm/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -521,8 +530,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/12/hard_time/"
-           data-title="心理学书籍" data-url="http://yoursite.com/2017/03/12/hard_time/">
+      <div class="ds-thread" data-thread-key="2019/08/12/tool-tdm/"
+           data-title="TDM-深度树匹配" data-url="http://yoursite.com/2019/08/12/tool-tdm/">
       </div>
     
   </div>
@@ -546,17 +555,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/towan.jpg"
@@ -638,22 +638,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#心理学书籍收藏"><span class="nav-number">1.</span> <span class="nav-text">心理学书籍收藏</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
