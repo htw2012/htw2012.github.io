@@ -111,13 +111,13 @@
 <meta property="og:url" content="http://yoursite.com/2019/08/12/tool-tdm/index.html">
 <meta property="og:site_name" content="数据娃嚼AI">
 <meta property="og:description" content="之前介绍过基于乘积量化方式PQ构建分库索引的fasis工具解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问">
-<meta property="og:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png">
-<meta property="og:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823114344868.png">
-<meta property="og:updated_time" content="2019-09-09T01:14:53.093Z">
+<meta property="og:image" content="http://yoursite.com/images/image-20190823113809654.png">
+<meta property="og:image" content="http://yoursite.com/images/image-20190823114344868.png">
+<meta property="og:updated_time" content="2019-09-11T13:39:52.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TDM-深度树匹配">
 <meta name="twitter:description" content="之前介绍过基于乘积量化方式PQ构建分库索引的fasis工具解决召回效率低的问题，本文介绍一种基于树的高效匹配算法。我们在数据结构上知道搜索二叉树BST等系列的树查找时间复杂度是对数级别，knn based的一些检索结构KD树等都是检索比较高效的数据结构，通过分而治之的方式进行不断查找。基于树这样的天生的优良特性，阿里妈妈的作者们在推荐领域下，提出TDM算法解决全库检索效率低和推荐系统两阶段分割的问">
-<meta name="twitter:image" content="http://yoursite.com/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png">
+<meta name="twitter:image" content="http://yoursite.com/images/image-20190823113809654.png">
 
 
 
@@ -430,11 +430,11 @@
 <p>来源：参考人脑，兴趣的建立由粗到细的组织方式和检索方法，比如10亿的商品列表，只需要30次的查找  </p>
 <p>How: 为什么检索出来的top-k，就是用户感兴趣的 Topk?有效性如何去保证？有效性检索的建模背后隐藏着对用户兴趣的建模。</p>
 <p>基础结构：用户兴趣的最大堆树，首先是定义第j层用户对节点n的兴趣为用户对对节点n的子节点层下j+1的兴趣最大值。</p>
-<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png" alt="image-20190823113809654"></p>
+<p><img src="images/image-20190823113809654.png" alt="image-20190823113809654"></p>
 <p>由于是递归定义，具有性质：最大堆树下，当前层最优 TopK 节点的父亲，一定属于上一层的最优 TopK。</p>
 <p>扩展点：这里的max操作可以如何去替换？min, all??</p>
 <p>举例如下：</p>
-<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823114344868.png" alt="image-20190823114344868"></p>
+<p><img src="images/image-20190823114344868.png" alt="image-20190823114344868"></p>
 <p>如果item6和item8是全局的最优top2节点，那么SN层中SN3和SN4是最优的top2.</p>
 <p>由此可见，用户兴趣的最大堆树的定义是保证这种检索(beam seach)有效的充分条件，所以实际做的过程可以从根节点出发，逐层选择top-k,一直到叶子节点。</p>
 <p>既然最大堆树的定义保证这种检索的有效性，那么这棵树应该如何去学习？</p>

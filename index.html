@@ -433,11 +433,11 @@
 <p>来源：参考人脑，兴趣的建立由粗到细的组织方式和检索方法，比如10亿的商品列表，只需要30次的查找  </p>
 <p>How: 为什么检索出来的top-k，就是用户感兴趣的 Topk?有效性如何去保证？有效性检索的建模背后隐藏着对用户兴趣的建模。</p>
 <p>基础结构：用户兴趣的最大堆树，首先是定义第j层用户对节点n的兴趣为用户对对节点n的子节点层下j+1的兴趣最大值。</p>
-<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823113809654.png" alt="image-20190823113809654"></p>
+<p><img src="images/image-20190823113809654.png" alt="image-20190823113809654"></p>
 <p>由于是递归定义，具有性质：最大堆树下，当前层最优 TopK 节点的父亲，一定属于上一层的最优 TopK。</p>
 <p>扩展点：这里的max操作可以如何去替换？min, all??</p>
 <p>举例如下：</p>
-<p><img src="/Users/tongwen/Library/Application Support/typora-user-images/image-20190823114344868.png" alt="image-20190823114344868"></p>
+<p><img src="images/image-20190823114344868.png" alt="image-20190823114344868"></p>
 <p>如果item6和item8是全局的最优top2节点，那么SN层中SN3和SN4是最优的top2.</p>
 <p>由此可见，用户兴趣的最大堆树的定义是保证这种检索(beam seach)有效的充分条件，所以实际做的过程可以从根节点出发，逐层选择top-k,一直到叶子节点。</p>
 <p>既然最大堆树的定义保证这种检索的有效性，那么这棵树应该如何去学习？</p>
