@@ -298,6 +298,195 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/RecSys-Advance-RL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/28/RecSys-Advance-RL/" itemprop="url">
+                  推荐系统前沿系列-强化学习方法概览
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T23:16:30+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
+                    <span itemprop="name">推荐系统</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/推荐系统/DRL/" itemprop="url" rel="index">
+                    <span itemprop="name">DRL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/28/RecSys-Advance-RL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/28/RecSys-Advance-RL/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="主要文章"><a href="#主要文章" class="headerlink" title="主要文章"></a>主要文章</h2><ul>
+<li>Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019</li>
+<li><a href="https://arxiv.org/pdf/1811.05869.pdf" target="_blank" rel="external">Large-scale Interactive Recommendation with Tree-structured Policy Gradient</a><br>树型策略梯度(tree-structured policy gradient)的强化学习模型TPGR,<a href="http://vlambda.com/wz_wwE6WGcjsz.html" target="_blank" rel="external">相关报道</a></li>
+<li><a href="https://arxiv.org/abs/1802.06501" target="_blank" rel="external">Recommendations with Negative Feedback via Pairwise Deep Reinforcement Learning</a>  KDD 2018</li>
+<li><p><a href="https://arxiv.org/pdf/1805.02343" target="_blank" rel="external">Deep Reinforcement Learning for Page-wise Recommendations</a>, JD, RecSys 2018</p>
+</li>
+<li><p><a href="https://arxiv.org/abs/1803.00710" target="_blank" rel="external">Reinforcement Learning to Ranking in E-commerce Search Engine:Formalization, Analysis, and Application</a> KDD 2018</p>
+</li>
+<li><a href="https://arxiv.org/pdf/1805.02343.pdf" target="_blank" rel="external">A Deep Reinforcement Learning Framework for News Recommendation</a> JD, WWW 2018 </li>
+<li>Reinforcement Learning for Slate-based Recommender Systems: A Tractable Decomposition and Practical Methodology，IJCAI 2019</li>
+<li>Top-K Off-Policy Correction for a REINFORCE Recommender System，WSDM 2019</li>
+<li>Deep Reinforcement Learning for Sponsored Search Real-time Bidding， Alibaba, DQN</li>
+</ul>
+<h2 id="重点解读"><a href="#重点解读" class="headerlink" title="重点解读"></a>重点解读</h2><h3 id="Generative-Adversarial-User-Model-for-Reinforcement-Learning-Based-Recommendation-System，蚂蚁金服，ICML-2019"><a href="#Generative-Adversarial-User-Model-for-Reinforcement-Learning-Based-Recommendation-System，蚂蚁金服，ICML-2019" class="headerlink" title="Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019"></a>Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019</h3><ul>
+<li><p>主要贡献点：</p>
+<ul>
+<li>用户的行为模型+reward统一由一个minmax的框架来学习</li>
+<li>以这套模型为环境，开发了一个级联的DQN的方法线性复杂度的解决组合选择action的问题</li>
+</ul>
+</li>
+<li><p>值得借鉴点：</p>
+<ul>
+<li>强化学习的五元组建模方法</li>
+<li>对抗训练的建模方式。G：基于用户的历史行为序列生成当前的行为概率；D：尝试从生成的行为序列和真实的区分出来。</li>
+<li>行为序列两种建模方式：LSTM/Position Weight</li>
+<li>贪心方式的级联的DQN的处理方式</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/RecSys-session-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2198,165 +2387,11 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/08/read_couplet/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/08/read_couplet/" itemprop="url">
-                  读诗
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T21:45:23+08:00">
-                2017-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">life</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/08/read_couplet/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/read_couplet/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="贫女"><a href="#贫女" class="headerlink" title="贫女"></a>贫女</h4><p>【作者】秦韬玉 【朝代】唐代</p>
-<p>蓬门未识绮罗香，拟托良媒益自伤。</p>
-<p>谁爱风流高格调，共怜时世俭梳妆。</p>
-<p>敢将十指夸偏巧，不把双眉斗画长。</p>
-<p>苦恨年年压金线，为他人作嫁衣裳。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2401,7 +2436,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2412,7 +2447,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2423,7 +2458,7 @@ model-29,model structure:(&apos;init-29&apos;, &apos;0.7944&apos;, [(&apos;conv&
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

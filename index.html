@@ -298,6 +298,260 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/horovod/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="数据娃嚼AI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/towan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="数据娃嚼AI">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/09/02/horovod/" itemprop="url">
+                  单机多卡/多机多卡的Horovod分布式框架的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T16:08:36+08:00">
+                2019-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/Horovod/" itemprop="url" rel="index">
+                    <span itemprop="name">Horovod</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/02/horovod/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/09/02/horovod/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>加速训练，单机训练慢；</li>
+<li>原生的TF分布式效率不高</li>
+</ul>
+<p>选择方案：基于TF的horovod</p>
+<p>##horovod介绍</p>
+<p>代码：<a href="https://github.com/horovod/horovod" target="_blank" rel="external">https://github.com/horovod/horovod</a></p>
+<p>文章：<a href="https://github.com/horovod/horovod" target="_blank" rel="external"><em>Horovod: fast and easy distributed deep learning in TensorFlow</em></a></p>
+<p>主要优点：</p>
+<ol>
+<li>兼容TensorFlow、Keras和PyTorch机器学习框架。</li>
+<li>使用Ring-AllReduce算法，对比Parameter Server算法，有着无需等待，负载均衡的优点，利用Nvidia的NCCL集体通信机制的高效实现。</li>
+<li>实现简单易用</li>
+</ol>
+<h3 id="核心算法"><a href="#核心算法" class="headerlink" title="核心算法"></a>核心算法</h3><p>基于梯度同步和权值更新的算法Ring-AllReduce</p>
+<h4 id="Parameter-Server算法"><a href="#Parameter-Server算法" class="headerlink" title="Parameter Server算法"></a>Parameter Server算法</h4><p><img src="images/image-20191015081728209.png" alt="image-20191015081728209"></p>
+<h4 id="Ring-AllReduce的思路"><a href="#Ring-AllReduce的思路" class="headerlink" title="Ring-AllReduce的思路"></a>Ring-AllReduce的思路</h4><p><img src="images/image-20191015082232623.png" alt="image-20191015082232623"></p>
+<p>比如示意图的3台机器，数据被拆分为3份。</p>
+<p>主要分3个步骤：</p>
+<h5 id="1-相邻环计算-计算N-1次"><a href="#1-相邻环计算-计算N-1次" class="headerlink" title="1.相邻环计算(计算N-1次)"></a>1.相邻环计算(计算N-1次)</h5><p>所有梯度分为n个片段，每次只与相邻节点传递1个片段的梯度，n-1次后，每一片段的梯度都完成了所有节点这一片段梯度的累计，但不用片段的累计值分布在不同节点上。</p>
+<p>首先看，第1步到第2步操作</p>
+<p>A.1 + B.1更新B.1，5+8=13，13+11=24, B.1更新为(13,24)</p>
+<p>B.2 + C.2 更新C.2, 4+3=7, 2+15=17, C.2更新为(7,17)</p>
+<p>C.3 + A.3 更新A.3, 8+42=50, 4+1=5, A.3更新为(50,5)</p>
+<p>同理更新第2到第3步，</p>
+<p>A.3+B.3更新B.3, 50+7=57, 5+7=12，B.3更新为(57, 12)</p>
+<p>B.1+C.1更新C.1, 13+9=22, 24+27=51，C.1更新为(22, 51)</p>
+<p>C.2+A.2更新A.2, 7+8=15, 17+19=36, A.2更新为(15,36)</p>
+<h5 id="2-将累计后的梯度分发到所有节点-同步N-1次"><a href="#2-将累计后的梯度分发到所有节点-同步N-1次" class="headerlink" title="2.将累计后的梯度分发到所有节点(同步N-1次)"></a>2.将累计后的梯度分发到所有节点(同步N-1次)</h5><p>将第一步累计的梯度再次通过n-1次的相互交换后，所有节点的梯度完成同步。</p>
+<p>比如</p>
+<p>第4步：</p>
+<p>A.2的结果同步到B.2, B.3的结果同步到C.3, C.1的结果同步到A.1</p>
+<p>第5步：</p>
+<p>A.1的结果同步到B.1, B.2的结果同步到C.2, C.3的结果同步到A.3</p>
+<h5 id="3-平均后，更新权重，就完成了所有节点权重的更新。"><a href="#3-平均后，更新权重，就完成了所有节点权重的更新。" class="headerlink" title="3.平均后，更新权重，就完成了所有节点权重的更新。"></a>3.平均后，更新权重，就完成了所有节点权重的更新。</h5><p>通信机制的时间复杂度：</p>
+<ul>
+<li>N-1次相邻节点的累加，更新到具体的buffer中</li>
+<li>N-1次将结果同步到相邻的节点</li>
+</ul>
+<p>总共的通信时间：2*(N-1)</p>
+<p>ring-allreduce算法的总耗时跟数据量，总节点数有关系</p>
+<h4 id="主要概念"><a href="#主要概念" class="headerlink" title="主要概念"></a>主要概念</h4><p>horovod的数据传递是基于MPI，涉及的概念也是MPI中的概念。以4个服务器，每个服务器4个GPU为例。</p>
+<ul>
+<li><p>size:</p>
+<p>进程数量，也即所有GPU数量，为16</p>
+</li>
+<li><p>rank</p>
+<p>进程的唯一ID，0-15</p>
+</li>
+<li><p>local rank</p>
+<p>每一个server中的进程的本地唯一ID，0-3</p>
+</li>
+<li><p>all-reduce</p>
+<p>累加所有数据，并同步到所有节点的操作，和reduce的区别在于同步所有。</p>
+</li>
+<li><p>all-gather</p>
+<p>收集所有数据，并同步到所有节点的操作，完成后每个节点都包含所有节点的数据，并且这些数据单独存在。</p>
+</li>
+<li><p>broadcast</p>
+<p>将数据（需要由根节点确认）从一个节点传播到其他所有节点的操作。</p>
+</li>
+</ul>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>主要参考github中的介绍，核心概括为6个步骤，针对单机代码的修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">import tensorflow as tf</div><div class="line">import horovod.tensorflow as hvd</div><div class="line"></div><div class="line"># Initialize Horovod</div><div class="line">hvd.init()</div><div class="line"></div><div class="line"># Pin GPU to be used to process local rank (one GPU per process)</div><div class="line">config = tf.ConfigProto()</div><div class="line">config.gpu_options.visible_device_list = str(hvd.local_rank())</div><div class="line"></div><div class="line"># Build model...</div><div class="line">loss = ...</div><div class="line">opt = tf.train.AdagradOptimizer(0.01 * hvd.size())</div><div class="line"></div><div class="line"># Add Horovod Distributed Optimizer</div><div class="line">opt = hvd.DistributedOptimizer(opt)</div><div class="line"></div><div class="line"># Add hook to broadcast variables from rank 0 to all other processes during</div><div class="line"># initialization.</div><div class="line">hooks = [hvd.BroadcastGlobalVariablesHook(0)]</div><div class="line"></div><div class="line"># Make training operation</div><div class="line">train_op = opt.minimize(loss)</div><div class="line"></div><div class="line"># Save checkpoints only on worker 0 to prevent other workers from corrupting them.</div><div class="line">checkpoint_dir = &apos;/tmp/train_logs&apos; if hvd.rank() == 0 else None</div><div class="line"></div><div class="line"># The MonitoredTrainingSession takes care of session initialization,</div><div class="line"># restoring from a checkpoint, saving to a checkpoint, and closing when done</div><div class="line"># or an error occurs.</div><div class="line">with tf.train.MonitoredTrainingSession(checkpoint_dir=checkpoint_dir,</div><div class="line">                                       config=config,</div><div class="line">                                       hooks=hooks) as mon_sess:</div><div class="line">  while not mon_sess.should_stop():</div><div class="line">    # Perform synchronous training.</div><div class="line">    mon_sess.run(train_op)</div></pre></td></tr></table></figure>
+<h3 id="核心步骤介绍"><a href="#核心步骤介绍" class="headerlink" title="核心步骤介绍"></a>核心步骤介绍</h3><p>1）初始化horovod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hvd.init()</div></pre></td></tr></table></figure>
+<p>2）一个GPU与一个进程绑定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">config = tf.ConfigProto()</div><div class="line">config.gpu_options.visible_device_list = str(hvd.local_rank())</div></pre></td></tr></table></figure>
+<p>3）根据总GPU数量放大学习率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opt = tf.train.AdagradOptimizer(0.01 * hvd.size())</div></pre></td></tr></table></figure>
+<p>因为BatchSize会根据GPU数量放大，所以学习率也应该放大</p>
+<p>4）使用hvd.DistributedOptimizer封装原有的optimizer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opt = hvd.DistributedOptimizer(opt)</div></pre></td></tr></table></figure>
+<p>分布式训练涉及到梯度同步，每一个GPU的梯度计算仍然由原有的optimizer 计算，只是梯度同步由hvd.DistributedOptimizer负责。</p>
+<p>5）广播初始变量值到所有进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hooks = [hvd.BroadcastGlobalVariablesHook(0)]</div></pre></td></tr></table></figure>
+<p>主要为了确保所有进程变量初始值相同</p>
+<p>6）只在worker 0上保存checkpoint</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">checkpoint_dir = &apos;/tmp/train_logs&apos; if hvd.rank() == 0 else None</div></pre></td></tr></table></figure>
+<p>防止checkpoint保存错乱。</p>
+<p>horovod只是需要改动必要改动的，不涉及parameter server架构的device设置等，繁琐的操作。</p>
+<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><h4 id="单机多卡训练"><a href="#单机多卡训练" class="headerlink" title="单机多卡训练"></a>单机多卡训练</h4><p>在单机4卡的机上起训练，只需执行以下命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">horovodrun -np 4 -H localhost:4 python train.py</div></pre></td></tr></table></figure>
+<h4 id="多机多卡训练"><a href="#多机多卡训练" class="headerlink" title="多机多卡训练"></a>多机多卡训练</h4><p>在4机，每机4卡的机子上起训练，只需在一个机子上执行以下命令即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">horovodrun -np 16 -H server1:4,server2:4,server3:4,server4:4 python train.py</div></pre></td></tr></table></figure>
+<p>注：注意无论是单机多卡，还是多机多卡，都只需在一个机子上执行一次命令即可，其他机horovod会用MPI启动进程和传递数据</p>
+<h2 id="主要效果"><a href="#主要效果" class="headerlink" title="主要效果"></a>主要效果</h2><p><img src="images/image-20191015082031743.png" alt="image-20191015082031743"></p>
+<h2 id="参考来源"><a href="#参考来源" class="headerlink" title="参考来源"></a>参考来源</h2><ul>
+<li>代码：<a href="https://github.com/horovod/horovod" target="_blank" rel="external">https://github.com/horovod/horovod</a></li>
+<li>文章：<em>Horovod: fast and easy distributed deep learning in TensorFlow</em>. Retrieved from <a href="https://arxiv.org/abs/1802.05799" target="_blank" rel="external">arXiv:1802.05799</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/75318339" target="_blank" rel="external">【分布式训练】单机多卡的正确打开方式（四）：Horovod</a></li>
+<li><a href="https://mp.weixin.qq.com/s/-kWJhy3UwsiYyUy82F0trQ" target="_blank" rel="external">是时候放弃tensorflow集群投入horovod的怀抱</a></li>
+<li><a href="https://www.zhihu.com/question/63219175" target="_blank" rel="external">Nvidia英伟达的Multi-GPU多卡通信框架NCCL</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/tool-tdm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2021,200 +2275,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/28/RecSys-Advance-RL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="数据娃嚼AI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/towan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="数据娃嚼AI">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/06/28/RecSys-Advance-RL/" itemprop="url">
-                  推荐系统前沿系列-强化学习方法概览
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-28T23:16:30+08:00">
-                2019-06-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/" itemprop="url" rel="index">
-                    <span itemprop="name">推荐系统</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/推荐系统/DRL/" itemprop="url" rel="index">
-                    <span itemprop="name">DRL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/06/28/RecSys-Advance-RL/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/06/28/RecSys-Advance-RL/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="主要文章"><a href="#主要文章" class="headerlink" title="主要文章"></a>主要文章</h2><ul>
-<li>Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019</li>
-<li><a href="https://arxiv.org/pdf/1811.05869.pdf" target="_blank" rel="external">Large-scale Interactive Recommendation with Tree-structured Policy Gradient</a><br>树型策略梯度(tree-structured policy gradient)的强化学习模型TPGR,<a href="http://vlambda.com/wz_wwE6WGcjsz.html" target="_blank" rel="external">相关报道</a></li>
-<li><a href="https://arxiv.org/abs/1802.06501" target="_blank" rel="external">Recommendations with Negative Feedback via Pairwise Deep Reinforcement Learning</a>  KDD 2018</li>
-<li><p><a href="https://arxiv.org/pdf/1805.02343" target="_blank" rel="external">Deep Reinforcement Learning for Page-wise Recommendations</a>, JD, RecSys 2018</p>
-</li>
-<li><p><a href="https://arxiv.org/abs/1803.00710" target="_blank" rel="external">Reinforcement Learning to Ranking in E-commerce Search Engine:Formalization, Analysis, and Application</a> KDD 2018</p>
-</li>
-<li><a href="https://arxiv.org/pdf/1805.02343.pdf" target="_blank" rel="external">A Deep Reinforcement Learning Framework for News Recommendation</a> JD, WWW 2018 </li>
-<li>Reinforcement Learning for Slate-based Recommender Systems: A Tractable Decomposition and Practical Methodology，IJCAI 2019</li>
-<li>Top-K Off-Policy Correction for a REINFORCE Recommender System，WSDM 2019</li>
-<li>Deep Reinforcement Learning for Sponsored Search Real-time Bidding， Alibaba, DQN</li>
-</ul>
-<h2 id="重点解读"><a href="#重点解读" class="headerlink" title="重点解读"></a>重点解读</h2><h3 id="Generative-Adversarial-User-Model-for-Reinforcement-Learning-Based-Recommendation-System，蚂蚁金服，ICML-2019"><a href="#Generative-Adversarial-User-Model-for-Reinforcement-Learning-Based-Recommendation-System，蚂蚁金服，ICML-2019" class="headerlink" title="Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019"></a>Generative Adversarial User Model for Reinforcement Learning Based Recommendation System，蚂蚁金服，ICML 2019</h3><ul>
-<li><p>主要贡献点：</p>
-<ul>
-<li>用户的行为模型+reward统一由一个minmax的框架来学习</li>
-<li>以这套模型为环境，开发了一个级联的DQN的方法线性复杂度的解决组合选择action的问题</li>
-</ul>
-</li>
-<li><p>值得借鉴点：</p>
-<ul>
-<li>强化学习的五元组建模方法</li>
-<li>对抗训练的建模方式。G：基于用户的历史行为序列生成当前的行为概率；D：尝试从生成的行为序列和真实的区分出来。</li>
-<li>行为序列两种建模方式：LSTM/Position Weight</li>
-<li>贪心方式的级联的DQN的处理方式</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2259,7 +2324,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2270,7 +2335,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2281,7 +2346,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
